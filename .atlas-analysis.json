@@ -1,0 +1,55 @@
+{
+  "projectType": "general",
+  "projectName": "ProyectoWeb",
+  "projectDescription": "A web development project with comprehensive documentation and resources",
+  "theme": "mint",
+  "primaryColor": "#3B82F6",
+  "lightColor": "#60A5FA",
+  "darkColor": "#1E40AF",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Project Documentation",
+        "pages": [
+          "project/overview",
+          "project/requirements",
+          "project/specification"
+        ]
+      },
+      {
+        "group": "Development",
+        "pages": [
+          "development/setup",
+          "development/guidelines",
+          "development/testing"
+        ]
+      },
+      {
+        "group": "Resources",
+        "pages": [
+          "resources/references",
+          "resources/faq"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Web development project structure",
+    "Comprehensive project documentation",
+    "Development guidelines and best practices",
+    "Resource references and FAQs"
+  ],
+  "publicApiSurface": [
+    "Project specification document",
+    "Development setup guide",
+    "Testing guidelines",
+    "Reference materials"
+  ]
+}
