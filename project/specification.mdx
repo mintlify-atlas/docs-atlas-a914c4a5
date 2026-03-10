@@ -1,14 +1,20 @@
 ---
 title: 'Technical Specification'
-description: 'Detailed technical specifications and design documentation for ProyectoWeb'
+description: 'Reference to project specification document for ProyectoWeb'
 icon: 'file-lines'
 ---
 
 <Note>
-  This technical specification is based on the project document: **Proyecto desarrollo web 2026-10.pdf** (9 pages)
+  This page references the project specification document: **Proyecto desarrollo web 2026-10.pdf** (9 pages)
   
   Location: `Documentos/Proyecto desarrollo web 2026-10.pdf`
 </Note>
+
+## Project Status
+
+<Warning>
+  **Planning Stage:** ProyectoWeb is currently in the planning phase. The source repository contains only documentation and planning materials. No code implementation exists yet.
+</Warning>
 
 ## Document Information
 
@@ -17,756 +23,401 @@ icon: 'file-lines'
     October 2026
   </Card>
   <Card title="Project Status" icon="traffic-light">
-    Early Development Stage
+    Planning Stage - No Implementation
   </Card>
   <Card title="Pages" icon="file-pdf">
-    9 pages of detailed specifications
+    9 pages of specifications
   </Card>
   <Card title="Last Updated" icon="calendar">
     October 2026
   </Card>
 </CardGroup>
 
-## Technical Overview
+## Specification Document
 
-This document provides comprehensive technical specifications for the ProyectoWeb development project, covering system architecture, design patterns, technology choices, and implementation guidelines.
+### Complete Project Specification
 
-## System Architecture
+<Card title="Proyecto desarrollo web 2026-10.pdf" icon="file-pdf">
+  **Location:** `~/workspace/source/Documentos/Proyecto desarrollo web 2026-10.pdf`
+  
+  **Format:** PDF Document
+  
+  **Pages:** 9
+  
+  **Description:** This document contains the complete and detailed project specifications for ProyectoWeb. All technical requirements, architecture decisions, and implementation details are documented in this PDF.
+  
+  **Note:** This PDF document is the single source of truth for project specifications. All implementation work should reference this document directly.
+</Card>
+
+## What This Repository Contains
+
+The current repository structure:
+
+```
+~/workspace/source/
+├── README.md                                    (5 lines: basic readme)
+├── Documentos/
+│   ├── Proyecto desarrollo web 2026-10.pdf    (9 pages: project spec)
+│   └── HOLA ESTA ES UNA PRUEBA.txt            (empty file)
+```
+
+<Info>
+  The repository is in planning stage with only documentation. There is no `package.json`, no source code, no configuration files, and no implementation yet.
+</Info>
+
+## General Web Development Specifications
+
+While the actual project specifications are in the PDF document, this section outlines general technical concepts and best practices for web development projects.
 
 ### Architecture Patterns
 
-<Info>
-  The system follows a layered architecture pattern promoting separation of concerns and maintainability.
-</Info>
-
 <AccordionGroup>
-  <Accordion title="Presentation Layer" icon="display">
-    **Responsibilities:**
-    - User interface rendering
-    - User input handling
-    - Client-side state management
-    - Presentation logic
+  <Accordion title="Layered Architecture" icon="layer-group">
+    **Concept:**
+    Modern web applications typically use layered architecture to separate concerns:
     
-    **Technologies:**
-    - Modern JavaScript framework
-    - Component-based architecture
-    - Responsive CSS framework
-    - State management library
+    - **Presentation Layer:** User interface and user experience
+    - **Business Logic Layer:** Application logic and rules
+    - **Data Access Layer:** Database and data operations
+    - **Infrastructure Layer:** Cross-cutting concerns
     
-    **Design Patterns:**
-    - Component composition
-    - Container/Presenter pattern
-    - Hooks for state management
-    - Virtual DOM optimization
+    **Benefits:**
+    - Clear separation of concerns
+    - Easier testing and maintenance
+    - Better code organization
+    - Improved scalability
   </Accordion>
 
-  <Accordion title="Application Layer" icon="server">
-    **Responsibilities:**
-    - Business logic implementation
-    - Request/response handling
-    - API endpoint definition
-    - Service orchestration
+  <Accordion title="RESTful API Design" icon="code">
+    **Principles:**
+    When designing APIs, follow REST principles:
     
-    **Technologies:**
-    - RESTful API design
-    - Middleware architecture
-    - Request validation
-    - Response formatting
+    - Use appropriate HTTP methods (GET, POST, PUT, DELETE)
+    - Use meaningful resource URLs
+    - Return appropriate status codes
+    - Implement proper error handling
+    - Version your APIs
     
-    **Design Patterns:**
-    - MVC/MVVM pattern
-    - Service layer pattern
-    - Dependency injection
-    - Factory pattern for services
+    **Best Practices:**
+    - Keep endpoints simple and intuitive
+    - Use JSON for data exchange
+    - Implement pagination for large datasets
+    - Document all endpoints
   </Accordion>
 
-  <Accordion title="Data Access Layer" icon="database">
-    **Responsibilities:**
-    - Database operations
-    - Data mapping
-    - Query optimization
-    - Transaction management
+  <Accordion title="Component-Based Design" icon="puzzle-piece">
+    **Approach:**
+    Modern frameworks use component-based architecture:
     
-    **Technologies:**
-    - ORM/ODM framework
-    - Connection pooling
-    - Query builder
-    - Migration tools
+    - Break UI into reusable components
+    - Keep components focused and small
+    - Pass data through props/parameters
+    - Manage state appropriately
     
-    **Design Patterns:**
-    - Repository pattern
-    - Unit of Work pattern
-    - Data mapper pattern
-    - Active record pattern
+    **Advantages:**
+    - Code reusability
+    - Easier testing
+    - Better maintainability
+    - Parallel development
   </Accordion>
+</AccordionGroup>
 
-  <Accordion title="Infrastructure Layer" icon="network-wired">
-    **Responsibilities:**
-    - Cross-cutting concerns
-    - Logging and monitoring
+### Technology Stack Considerations
+
+<Tabs>
+  <Tab title="Frontend">
+    **Common Technologies:**
+    - JavaScript/TypeScript
+    - Modern frameworks (React, Vue, Angular, Svelte)
+    - CSS frameworks (Tailwind, Bootstrap)
+    - State management libraries
+    - Build tools (Vite, Webpack)
+    
+    **Considerations:**
+    - Choose based on team expertise
+    - Consider project requirements
+    - Evaluate community support
+    - Plan for long-term maintenance
+  </Tab>
+  
+  <Tab title="Backend">
+    **Common Technologies:**
+    - Node.js, Python, Java, Go, PHP
+    - Web frameworks (Express, FastAPI, Spring)
+    - API design patterns
+    - Authentication systems
+    - Background job processing
+    
+    **Considerations:**
+    - Performance requirements
+    - Scalability needs
+    - Team experience
+    - Ecosystem maturity
+  </Tab>
+  
+  <Tab title="Database">
+    **Options:**
+    - Relational (PostgreSQL, MySQL, MariaDB)
+    - NoSQL (MongoDB, Redis, DynamoDB)
+    - Hybrid approaches
+    - ORM/ODM tools
+    
+    **Factors:**
+    - Data structure and relationships
+    - Query patterns
+    - Scalability requirements
+    - Consistency vs availability trade-offs
+  </Tab>
+  
+  <Tab title="Infrastructure">
+    **Components:**
+    - Hosting (cloud, on-premise)
+    - CDN for static assets
+    - Load balancing
+    - Monitoring and logging
+    - CI/CD pipelines
+    
+    **Planning:**
+    - Estimate costs
+    - Plan for scaling
+    - Implement monitoring
+    - Automate deployments
+  </Tab>
+</Tabs>
+
+### Security Specifications
+
+<Warning>
+  Security should be designed into the application from the start, not added later.
+</Warning>
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="lock">
+    **Considerations:**
+    - Choose authentication method
+    - Implement secure sessions
+    - Use proven libraries
+    - Plan for token management
+  </Card>
+  
+  <Card title="Authorization" icon="shield-check">
+    **Planning:**
+    - Define roles and permissions
+    - Implement access controls
+    - Protect sensitive endpoints
+    - Validate at all levels
+  </Card>
+  
+  <Card title="Data Protection" icon="key">
+    **Strategies:**
+    - Encrypt sensitive data
+    - Use HTTPS everywhere
+    - Implement secure storage
+    - Follow data minimization
+  </Card>
+  
+  <Card title="Input Validation" icon="shield-halved">
+    **Practices:**
+    - Validate all inputs
+    - Sanitize user data
+    - Prevent injection attacks
+    - Use parameterized queries
+  </Card>
+</CardGroup>
+
+### Performance Specifications
+
+<Steps>
+  <Step title="Frontend Performance">
+    **Optimize for:**
+    - Fast initial page load
+    - Efficient rendering
+    - Minimal bundle size
+    - Lazy loading assets
+    - Image optimization
+  </Step>
+  
+  <Step title="Backend Performance">
+    **Focus on:**
+    - Fast response times
+    - Efficient database queries
     - Caching strategies
-    - Security implementation
-    
-    **Technologies:**
-    - Logging frameworks
-    - Cache providers
-    - Security libraries
-    - Configuration management
-    
-    **Design Patterns:**
-    - Singleton for shared resources
-    - Decorator for logging
-    - Strategy for caching
-    - Chain of responsibility for middleware
-  </Accordion>
-</AccordionGroup>
-
-## Data Model
-
-### Entity Relationships
-
-<Warning>
-  The data model should be normalized to at least third normal form (3NF) to ensure data integrity.
-</Warning>
-
-#### Core Entities
-
-<Tabs>
-  <Tab title="Users">
-    **User Entity Specification**
-    
-    ```sql
-    CREATE TABLE users (
-      id UUID PRIMARY KEY,
-      email VARCHAR(255) UNIQUE NOT NULL,
-      password_hash VARCHAR(255) NOT NULL,
-      first_name VARCHAR(100),
-      last_name VARCHAR(100),
-      role VARCHAR(50) NOT NULL,
-      status VARCHAR(20) DEFAULT 'active',
-      email_verified BOOLEAN DEFAULT false,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      last_login TIMESTAMP
-    );
-    ```
-    
-    **Indexes:**
-    - Primary key on `id`
-    - Unique index on `email`
-    - Index on `role` for filtering
-    - Index on `status` for active user queries
-  </Tab>
-  
-  <Tab title="Content">
-    **Content Entity Specification**
-    
-    ```sql
-    CREATE TABLE content (
-      id UUID PRIMARY KEY,
-      title VARCHAR(255) NOT NULL,
-      body TEXT,
-      author_id UUID REFERENCES users(id),
-      category VARCHAR(100),
-      status VARCHAR(20) DEFAULT 'draft',
-      published_at TIMESTAMP,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      version INTEGER DEFAULT 1
-    );
-    ```
-    
-    **Indexes:**
-    - Primary key on `id`
-    - Foreign key on `author_id`
-    - Index on `status` and `published_at`
-    - Full-text index on `title` and `body`
-  </Tab>
-  
-  <Tab title="Sessions">
-    **Session Entity Specification**
-    
-    ```sql
-    CREATE TABLE sessions (
-      id UUID PRIMARY KEY,
-      user_id UUID REFERENCES users(id),
-      token VARCHAR(500) UNIQUE NOT NULL,
-      ip_address VARCHAR(45),
-      user_agent TEXT,
-      expires_at TIMESTAMP NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    ```
-    
-    **Indexes:**
-    - Primary key on `id`
-    - Unique index on `token`
-    - Index on `user_id` and `expires_at`
-  </Tab>
-</Tabs>
-
-## API Specification
-
-### RESTful API Design
-
-<Info>
-  The API follows REST principles and uses standard HTTP methods and status codes.
-</Info>
-
-#### Authentication Endpoints
-
-<AccordionGroup>
-  <Accordion title="POST /api/auth/register">
-    **Description:** Register a new user account
-    
-    **Request Body:**
-    ```json
-    {
-      "email": "user@example.com",
-      "password": "SecurePass123!",
-      "firstName": "John",
-      "lastName": "Doe"
-    }
-    ```
-    
-    **Response (201 Created):**
-    ```json
-    {
-      "success": true,
-      "data": {
-        "id": "uuid",
-        "email": "user@example.com",
-        "firstName": "John",
-        "lastName": "Doe"
-      },
-      "message": "Registration successful. Please verify your email."
-    }
-    ```
-    
-    **Error Responses:**
-    - 400: Invalid input data
-    - 409: Email already exists
-  </Accordion>
-
-  <Accordion title="POST /api/auth/login">
-    **Description:** Authenticate user and receive access token
-    
-    **Request Body:**
-    ```json
-    {
-      "email": "user@example.com",
-      "password": "SecurePass123!"
-    }
-    ```
-    
-    **Response (200 OK):**
-    ```json
-    {
-      "success": true,
-      "data": {
-        "token": "jwt.token.here",
-        "refreshToken": "refresh.token.here",
-        "expiresIn": 3600,
-        "user": {
-          "id": "uuid",
-          "email": "user@example.com",
-          "role": "user"
-        }
-      }
-    }
-    ```
-    
-    **Error Responses:**
-    - 401: Invalid credentials
-    - 403: Account locked or unverified
-  </Accordion>
-
-  <Accordion title="POST /api/auth/logout">
-    **Description:** Invalidate current session token
-    
-    **Headers:**
-    ```
-    Authorization: Bearer {token}
-    ```
-    
-    **Response (200 OK):**
-    ```json
-    {
-      "success": true,
-      "message": "Logged out successfully"
-    }
-    ```
-  </Accordion>
-</AccordionGroup>
-
-#### Content Endpoints
-
-<CardGroup cols={2}>
-  <Card title="GET /api/content" icon="list">
-    List all content items with pagination
-    
-    **Query Parameters:**
-    - `page`: Page number (default: 1)
-    - `limit`: Items per page (default: 20)
-    - `sort`: Sort field
-    - `filter`: Filter criteria
-  </Card>
-  
-  <Card title="GET /api/content/:id" icon="eye">
-    Retrieve a specific content item
-    
-    **Response:** Content object with metadata
-  </Card>
-  
-  <Card title="POST /api/content" icon="plus">
-    Create a new content item
-    
-    **Auth Required:** Yes
-    **Request:** Content object
-  </Card>
-  
-  <Card title="PUT /api/content/:id" icon="pen">
-    Update an existing content item
-    
-    **Auth Required:** Yes
-    **Request:** Updated content object
-  </Card>
-  
-  <Card title="DELETE /api/content/:id" icon="trash">
-    Delete a content item
-    
-    **Auth Required:** Yes
-    **Response:** Confirmation message
-  </Card>
-</CardGroup>
-
-### API Response Format
-
-<Tabs>
-  <Tab title="Success Response">
-    ```json
-    {
-      "success": true,
-      "data": {
-        // Response payload
-      },
-      "metadata": {
-        "timestamp": "2026-10-15T10:30:00Z",
-        "version": "1.0"
-      }
-    }
-    ```
-  </Tab>
-  
-  <Tab title="Error Response">
-    ```json
-    {
-      "success": false,
-      "error": {
-        "code": "ERROR_CODE",
-        "message": "Human-readable error message",
-        "details": [
-          {
-            "field": "email",
-            "message": "Invalid email format"
-          }
-        ]
-      },
-      "metadata": {
-        "timestamp": "2026-10-15T10:30:00Z",
-        "requestId": "req-uuid"
-      }
-    }
-    ```
-  </Tab>
-  
-  <Tab title="Paginated Response">
-    ```json
-    {
-      "success": true,
-      "data": [
-        // Array of items
-      ],
-      "pagination": {
-        "page": 1,
-        "limit": 20,
-        "total": 150,
-        "totalPages": 8,
-        "hasNext": true,
-        "hasPrev": false
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
-
-## Security Specifications
-
-### Authentication Flow
-
-<Steps>
-  <Step title="User Submits Credentials">
-    User provides email and password through login form
+    - Asynchronous processing
+    - Resource optimization
   </Step>
   
-  <Step title="Server Validates Credentials">
-    - Hash password using bcrypt
-    - Compare with stored hash
-    - Verify account status (active, verified)
+  <Step title="Database Performance">
+    **Implement:**
+    - Proper indexing
+    - Query optimization
+    - Connection pooling
+    - Database caching
+    - Regular maintenance
   </Step>
   
-  <Step title="Generate Tokens">
-    - Create JWT access token (15 min expiry)
-    - Create refresh token (7 day expiry)
-    - Store refresh token in database
-  </Step>
-  
-  <Step title="Return Tokens to Client">
-    - Send tokens in response body
-    - Client stores tokens securely
-    - Access token used for API requests
+  <Step title="Network Performance">
+    **Consider:**
+    - Minimize HTTP requests
+    - Use compression
+    - Implement CDN
+    - Optimize assets
+    - Enable HTTP/2
   </Step>
 </Steps>
 
-### Security Best Practices
-
-<CardGroup cols={2}>
-  <Card title="Password Security" icon="lock">
-    - Minimum 8 characters
-    - Complexity requirements
-    - Bcrypt hashing (cost 12)
-    - Password history tracking
-  </Card>
-  
-  <Card title="Token Security" icon="key">
-    - JWT with RS256 signing
-    - Short-lived access tokens
-    - Refresh token rotation
-    - Token revocation list
-  </Card>
-  
-  <Card title="Input Validation" icon="shield-check">
-    - Server-side validation
-    - SQL injection prevention
-    - XSS prevention
-    - CSRF protection
-  </Card>
-  
-  <Card title="API Security" icon="shield-halved">
-    - Rate limiting (100 req/min)
-    - CORS configuration
-    - HTTPS only
-    - API key authentication
-  </Card>
-</CardGroup>
-
-## Performance Specifications
-
-### Caching Strategy
-
-<AccordionGroup>
-  <Accordion title="Client-Side Caching">
-    **Browser Cache:**
-    - Static assets: 1 year cache
-    - API responses: No-cache with ETag
-    - Service worker for offline support
-    
-    **Local Storage:**
-    - User preferences
-    - Non-sensitive application state
-    - Draft content
-  </Accordion>
-  
-  <Accordion title="Server-Side Caching">
-    **Redis Cache:**
-    - Session data (15 minutes TTL)
-    - Frequently accessed content (5 minutes TTL)
-    - API rate limit counters
-    - Database query results
-    
-    **CDN Caching:**
-    - Static assets (images, CSS, JS)
-    - Public content pages
-    - Cache invalidation on updates
-  </Accordion>
-</AccordionGroup>
-
-### Database Optimization
-
-<Info>
-  Proper indexing and query optimization are critical for performance.
-</Info>
-
-- **Query Optimization:** Use EXPLAIN to analyze queries
-- **Indexing Strategy:** Index foreign keys and frequently queried columns
-- **Connection Pooling:** Maintain 10-50 connections based on load
-- **Read Replicas:** Separate read and write operations
-- **Partitioning:** Partition large tables by date or category
-
-## Deployment Specification
-
-### Infrastructure Architecture
-
-<CardGroup cols={3}>
-  <Card title="Load Balancer" icon="scale-balanced">
-    - Distributes traffic
-    - SSL termination
-    - Health checks
-    - Auto-scaling triggers
-  </Card>
-  
-  <Card title="Application Servers" icon="server">
-    - Container-based deployment
-    - Horizontal scaling
-    - Zero-downtime updates
-    - Resource monitoring
-  </Card>
-  
-  <Card title="Database Cluster" icon="database">
-    - Primary-replica setup
-    - Automated backups
-    - Point-in-time recovery
-    - High availability
-  </Card>
-</CardGroup>
-
-### CI/CD Pipeline
-
-<Steps>
-  <Step title="Code Commit">
-    Developer pushes code to repository
-  </Step>
-  
-  <Step title="Automated Build">
-    - Install dependencies
-    - Run linters and formatters
-    - Compile/transpile code
-    - Run unit tests
-  </Step>
-  
-  <Step title="Integration Testing">
-    - Run integration tests
-    - Run E2E tests
-    - Security scanning
-    - Code coverage analysis
-  </Step>
-  
-  <Step title="Staging Deployment">
-    - Deploy to staging environment
-    - Run smoke tests
-    - Manual QA approval
-  </Step>
-  
-  <Step title="Production Deployment">
-    - Blue-green deployment
-    - Health check verification
-    - Gradual traffic shift
-    - Rollback on failure
-  </Step>
-</Steps>
-
-## Monitoring and Logging
-
-### Monitoring Metrics
-
-<CardGroup cols={2}>
-  <Card title="Application Metrics" icon="chart-line">
-    - Request rate
-    - Response time (p50, p95, p99)
-    - Error rate
-    - Active users
-  </Card>
-  
-  <Card title="System Metrics" icon="microchip">
-    - CPU utilization
-    - Memory usage
-    - Disk I/O
-    - Network throughput
-  </Card>
-  
-  <Card title="Business Metrics" icon="chart-pie">
-    - User registrations
-    - Content created
-    - Feature usage
-    - Conversion rates
-  </Card>
-  
-  <Card title="Database Metrics" icon="database">
-    - Query performance
-    - Connection pool usage
-    - Slow query log
-    - Replication lag
-  </Card>
-</CardGroup>
-
-### Logging Strategy
-
-<Warning>
-  Never log sensitive information such as passwords, tokens, or personal data.
-</Warning>
-
-**Log Levels:**
-- **ERROR:** Application errors requiring immediate attention
-- **WARN:** Potential issues that should be investigated
-- **INFO:** General informational messages
-- **DEBUG:** Detailed information for debugging (dev/staging only)
-
-**Log Structure:**
-```json
-{
-  "timestamp": "2026-10-15T10:30:00.000Z",
-  "level": "INFO",
-  "service": "api",
-  "requestId": "req-uuid",
-  "userId": "user-uuid",
-  "message": "User logged in successfully",
-  "metadata": {
-    "ip": "192.168.1.1",
-    "userAgent": "Mozilla/5.0..."
-  }
-}
-```
-
-## Testing Strategy
+### Testing Strategy
 
 <Tabs>
   <Tab title="Unit Tests">
-    **Scope:** Individual functions and components
-    
-    **Tools:**
-    - Testing framework (Jest, Mocha, etc.)
-    - Assertion library
-    - Mocking framework
-    
-    **Coverage Target:** 80% minimum
+    **Purpose:** Test individual functions and components in isolation
     
     **Best Practices:**
-    - Test one thing per test
-    - Use descriptive test names
-    - Arrange-Act-Assert pattern
+    - Write tests as you code
+    - Test edge cases
+    - Use meaningful test names
+    - Keep tests independent
     - Mock external dependencies
   </Tab>
   
   <Tab title="Integration Tests">
-    **Scope:** Multiple components working together
-    
-    **Tools:**
-    - API testing framework
-    - Test database
-    - Docker for services
-    
-    **Coverage:** Critical paths and integrations
+    **Purpose:** Test how components work together
     
     **Best Practices:**
-    - Test realistic scenarios
-    - Use test fixtures
+    - Test API endpoints
+    - Verify database operations
+    - Test service integrations
+    - Use test databases
     - Clean up after tests
-    - Test error conditions
   </Tab>
   
   <Tab title="E2E Tests">
-    **Scope:** Complete user workflows
-    
-    **Tools:**
-    - Browser automation (Playwright, Selenium)
-    - Visual regression testing
-    - Performance testing
-    
-    **Coverage:** Critical user journeys
+    **Purpose:** Test complete user workflows
     
     **Best Practices:**
-    - Test happy paths
-    - Test error scenarios
-    - Cross-browser testing
-    - Mobile device testing
+    - Test critical paths
+    - Use realistic scenarios
+    - Test across browsers
+    - Automate when possible
+    - Keep tests maintainable
   </Tab>
 </Tabs>
 
+## Development Workflow
+
+### When Development Begins
+
+<Steps>
+  <Step title="Environment Setup">
+    - Set up development environments
+    - Configure version control
+    - Establish coding standards
+    - Set up project structure
+  </Step>
+  
+  <Step title="Implementation">
+    - Follow the PDF specification
+    - Use agile methodologies
+    - Conduct code reviews
+    - Write tests alongside code
+  </Step>
+  
+  <Step title="Quality Assurance">
+    - Run automated tests
+    - Perform manual testing
+    - Conduct security audits
+    - Review performance metrics
+  </Step>
+  
+  <Step title="Deployment">
+    - Deploy to staging first
+    - Run final checks
+    - Deploy to production
+    - Monitor post-deployment
+  </Step>
+</Steps>
+
 ## Code Standards
 
-### Naming Conventions
+### General Best Practices
 
 <AccordionGroup>
-  <Accordion title="Files and Directories">
-    - Use kebab-case for file names: `user-service.js`
-    - Use PascalCase for component files: `UserProfile.jsx`
-    - Group related files in directories
-    - Use index files for clean imports
+  <Accordion title="Naming Conventions">
+    **Typical conventions:**
+    - Use camelCase for variables and functions
+    - Use PascalCase for classes and components
+    - Use UPPER_SNAKE_CASE for constants
+    - Use descriptive, meaningful names
+    - Avoid abbreviations
   </Accordion>
   
-  <Accordion title="Variables and Functions">
-    - Use camelCase for variables: `userName`
-    - Use camelCase for functions: `getUserById()`
-    - Use PascalCase for classes: `UserService`
-    - Use UPPER_SNAKE_CASE for constants: `MAX_RETRIES`
+  <Accordion title="Code Organization">
+    **Structure your code:**
+    - Group related functionality
+    - Keep files focused and small
+    - Use consistent file structure
+    - Separate concerns clearly
+    - Make imports organized
   </Accordion>
   
-  <Accordion title="Database Objects">
-    - Use snake_case for table names: `user_profiles`
-    - Use snake_case for column names: `created_at`
-    - Use singular for entity tables: `user`, not `users`
-    - Use descriptive names, avoid abbreviations
+  <Accordion title="Documentation">
+    **Document your code:**
+    - Write clear comments
+    - Document complex logic
+    - Use JSDoc or similar
+    - Keep README updated
+    - Document APIs thoroughly
   </Accordion>
 </AccordionGroup>
 
-### Code Documentation
+## Monitoring and Maintenance
 
-<Note>
-  Well-documented code reduces maintenance costs and improves team collaboration.
-</Note>
-
-**JSDoc Example:**
-```javascript
-/**
- * Retrieves a user by their unique identifier
- * @param {string} userId - The unique user identifier
- * @param {Object} options - Optional parameters
- * @param {boolean} options.includeDeleted - Include deleted users
- * @returns {Promise<User>} The user object
- * @throws {NotFoundError} If user does not exist
- */
-async function getUserById(userId, options = {}) {
-  // Implementation
-}
-```
-
-## Reference Documentation
-
-<Warning>
-  This technical specification should be read in conjunction with the complete project specification document.
-</Warning>
-
-### Complete Specification Document
-
-<Card title="Proyecto desarrollo web 2026-10.pdf" icon="file-pdf">
-  **Location:** `Documentos/Proyecto desarrollo web 2026-10.pdf`
-  
-  **Pages:** 9
-  
-  **Contents:**
-  - Detailed project requirements
-  - Architecture diagrams
-  - Technical specifications
-  - Implementation guidelines
-  - Timeline and milestones
-  - Resource allocation
-  
-  Please refer to this document for complete project details and specifications.
-</Card>
-
-## Related Documentation
+<Info>
+  Plan for ongoing monitoring and maintenance from the start of the project.
+</Info>
 
 <CardGroup cols={2}>
-  <Card title="Project Overview" icon="diagram-project" href="/project/overview">
-    High-level project goals and architecture
+  <Card title="Application Monitoring" icon="chart-line">
+    - Monitor performance metrics
+    - Track error rates
+    - Measure user engagement
+    - Analyze usage patterns
   </Card>
-  <Card title="Requirements" icon="list-check" href="/project/requirements">
-    Functional and non-functional requirements
+  
+  <Card title="Infrastructure Monitoring" icon="server">
+    - Monitor server health
+    - Track resource usage
+    - Set up alerts
+    - Plan for capacity
+  </Card>
+  
+  <Card title="Logging" icon="file-text">
+    - Implement structured logging
+    - Aggregate logs centrally
+    - Set appropriate log levels
+    - Protect sensitive data in logs
+  </Card>
+  
+  <Card title="Maintenance" icon="wrench">
+    - Update dependencies regularly
+    - Apply security patches
+    - Optimize performance
+    - Refactor as needed
   </Card>
 </CardGroup>
 
----
+## Next Steps
 
-<Info>
-  This specification document is a living document and will be updated as the project evolves.
-</Info>
+<Warning>
+  **Important:** All specific project details, requirements, and technical specifications are documented in the PDF file: `Documentos/Proyecto desarrollo web 2026-10.pdf`
+  
+  This documentation provides general web development guidance and context. For ProyectoWeb-specific information, always refer to the PDF specification document.
+</Warning>
+
+<CardGroup cols={2}>
+  <Card title="Project Overview" icon="diagram-project" href="/project/overview">
+    Review high-level project information
+  </Card>
+  <Card title="Requirements" icon="list-check" href="/project/requirements">
+    See general requirements and best practices
+  </Card>
+</CardGroup>

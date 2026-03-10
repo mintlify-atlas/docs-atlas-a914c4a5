@@ -1,41 +1,41 @@
 ---
 title: "Quick Start"
-description: "Get up and running with ProyectoWeb in minutes"
+description: "Get started with the ProyectoWeb documentation and resources"
 icon: "rocket"
 ---
 
-## Welcome
+## Welcome to ProyectoWeb
 
-Welcome to ProyectoWeb! This guide will help you get started quickly. The project includes a comprehensive specification document available in the repository.
+ProyectoWeb is a web development project currently in its planning and specification phase. This documentation provides information about the project's goals, requirements, and development guidelines.
 
-<Note>
-  The main project specification is available in `Documentos/Proyecto desarrollo web 2026-10.pdf` in the source repository.
-</Note>
+## Current Project Status
 
-## Prerequisites
+<Info>
+  ProyectoWeb is in the **early planning stage**. The repository currently contains project documentation and specifications that will guide the development process.
+</Info>
 
-Before you begin, ensure you have the following installed:
+### What's Available Now
 
 <CardGroup cols={2}>
-  <Card title="Node.js" icon="node-js">
-    Version 18.x or higher
+  <Card title="Project Specification" icon="file-pdf">
+    9-page PDF document with detailed requirements and specifications
   </Card>
-  <Card title="Git" icon="git-alt">
-    For version control
+  <Card title="Repository Structure" icon="folder-tree">
+    Basic Git repository set up for future development
   </Card>
-  <Card title="Code Editor" icon="code">
-    VS Code or your preferred editor
+  <Card title="Documentation" icon="book-open">
+    Comprehensive documentation site (this site)
   </Card>
-  <Card title="Package Manager" icon="box">
-    npm, yarn, or pnpm
+  <Card title="Development Guidelines" icon="code">
+    Best practices and standards for future development
   </Card>
 </CardGroup>
 
-## Getting Started
+## Accessing the Project
 
 <Steps>
   <Step title="Clone the Repository">
-    Clone the ProyectoWeb repository to your local machine:
+    Get a local copy of the ProyectoWeb repository:
 
     ```bash
     git clone https://github.com/SalomonAvila/ProyectoWeb.git
@@ -43,155 +43,102 @@ Before you begin, ensure you have the following installed:
     ```
   </Step>
 
-  <Step title="Install Dependencies">
-    Install the required dependencies using your preferred package manager:
+  <Step title="Review the Structure">
+    The current repository structure:
 
-    <CodeGroup>
-    ```bash npm
-    npm install
     ```
-
-    ```bash yarn
-    yarn install
+    ProyectoWeb/
+    ├── Documentos/
+    │   ├── Proyecto desarrollo web 2026-10.pdf  (Main specification)
+    │   └── HOLA ESTA ES UNA PRUEBA.txt          (Test file)
+    ├── README.md                                 (Basic readme)
+    └── .git/                                     (Git repository)
     ```
-
-    ```bash pnpm
-    pnpm install
-    ```
-    </CodeGroup>
   </Step>
 
-  <Step title="Configure Environment">
-    Create a `.env.local` file in the root directory and add your configuration:
-
-    ```bash .env.local
-    # Application Configuration
-    NODE_ENV=development
-    PORT=3000
-
-    # Database Configuration (if applicable)
-    DATABASE_URL=your_database_url_here
-
-    # API Keys (if applicable)
-    API_KEY=your_api_key_here
+  <Step title="Read the Specification">
+    The main project specification is located at:
+    
+    ```
+    Documentos/Proyecto desarrollo web 2026-10.pdf
     ```
 
-    <Warning>
-      Never commit `.env.local` or any file containing sensitive credentials to version control.
-    </Warning>
-  </Step>
-
-  <Step title="Start the Development Server">
-    Run the development server:
-
-    <CodeGroup>
-    ```bash npm
-    npm run dev
-    ```
-
-    ```bash yarn
-    yarn dev
-    ```
-
-    ```bash pnpm
-    pnpm dev
-    ```
-    </CodeGroup>
-
-    The application will be available at `http://localhost:3000`
-  </Step>
-
-  <Step title="Verify Installation">
-    Open your browser and navigate to `http://localhost:3000` to verify the installation was successful.
+    This 9-page document contains:
+    - Project requirements
+    - Technical specifications
+    - Development roadmap
+    - Architecture plans
 
     <Tip>
-      If you encounter any issues, check the [Troubleshooting](#troubleshooting) section below.
+      Start by reviewing this PDF to understand the project vision and requirements.
     </Tip>
+  </Step>
+
+  <Step title="Explore the Documentation">
+    Navigate through this documentation site to learn about:
+    - Project overview and goals
+    - Planned architecture
+    - Development guidelines
+    - Best practices and standards
   </Step>
 </Steps>
 
-## Project Structure
-
-Here's an overview of the ProyectoWeb repository structure:
-
-```
-ProyectoWeb/
-├── Documentos/           # Project documentation and specifications
-│   └── Proyecto desarrollo web 2026-10.pdf
-├── README.md            # Project README
-└── .git/               # Git repository
-```
-
-<Info>
-  The project is in early stages of development. More directories and files will be added as the project evolves.
-</Info>
-
 ## Next Steps
-
-Now that you have ProyectoWeb running, here's what you can do next:
 
 <CardGroup cols={2}>
   <Card title="Project Overview" icon="diagram-project" href="/project/overview">
-    Learn about the project architecture and code organization
+    Understand the project's vision and architecture
   </Card>
-  <Card title="Development Setup" icon="code" href="/development/setup">
-    Set up your complete development environment
+  <Card title="Requirements" icon="list-check" href="/project/requirements">
+    Review the functional and technical requirements
   </Card>
-  <Card title="Guidelines" icon="book" href="/development/guidelines">
-    Follow development best practices
+  <Card title="Development Guidelines" icon="book" href="/development/guidelines">
+    Learn about coding standards and best practices
   </Card>
   <Card title="Resources" icon="books" href="/resources/references">
-    Explore helpful references and materials
+    Explore helpful references for web development
   </Card>
 </CardGroup>
 
-## Common Commands
+## For Contributors
 
-Here are some frequently used commands for working with ProyectoWeb:
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start the development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start the production server |
-| `npm test` | Run tests |
-| `npm run lint` | Check code quality |
-
-## Troubleshooting
+If you're planning to contribute to ProyectoWeb once development begins:
 
 <AccordionGroup>
-  <Accordion title="Port already in use" icon="plug">
-    If port 3000 is already in use, you can specify a different port:
-
-    ```bash
-    PORT=3001 npm run dev
-    ```
+  <Accordion title="Read the Documentation" icon="book-open">
+    Familiarize yourself with the project specification and development guidelines in this documentation.
   </Accordion>
 
-  <Accordion title="Module not found errors" icon="exclamation-triangle">
-    If you encounter module errors, try:
-
-    ```bash
-    # Delete node_modules and reinstall
-    rm -rf node_modules package-lock.json
-    npm install
-    ```
+  <Accordion title="Understand the Requirements" icon="clipboard-check">
+    Review the [requirements document](/project/requirements) to understand what needs to be built.
   </Accordion>
 
-  <Accordion title="Environment variables not loading" icon="gear">
-    Ensure your `.env.local` file is in the root directory and properly formatted. Restart the development server after making changes.
+  <Accordion title="Follow Best Practices" icon="star">
+    Study the [development guidelines](/development/guidelines) to understand coding standards and workflows.
+  </Accordion>
+
+  <Accordion title="Set Up Your Environment" icon="laptop-code">
+    When development begins, follow the [setup guide](/development/setup) to configure your development environment.
   </Accordion>
 </AccordionGroup>
 
 ## Getting Help
 
-If you need help:
-
-- Check the project specification in `Documentos/Proyecto desarrollo web 2026-10.pdf`
-- Review the [README.md](https://github.com/SalomonAvila/ProyectoWeb/blob/main/README.md) in the repository
-- Visit the [FAQ section](/resources/faq) for common questions
-- Explore [reference materials](/resources/references) for additional resources
+<CardGroup cols={2}>
+  <Card title="Specification Document" icon="file-pdf">
+    Check `Documentos/Proyecto desarrollo web 2026-10.pdf` for detailed project information
+  </Card>
+  <Card title="FAQ" icon="circle-question" href="/resources/faq">
+    Find answers to frequently asked questions
+  </Card>
+  <Card title="References" icon="bookmark" href="/resources/references">
+    Explore curated resources for web development
+  </Card>
+  <Card title="GitHub" icon="github" href="https://github.com/SalomonAvila/ProyectoWeb">
+    Visit the project repository
+  </Card>
+</CardGroup>
 
 <Note>
-  For project-specific questions, refer to the comprehensive specification document included in the repository.
+  This is a planning-stage project. The specification document contains the detailed vision for what will be built.
 </Note>

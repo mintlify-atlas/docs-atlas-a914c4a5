@@ -1,200 +1,156 @@
 ---
 title: 'Project Overview'
-description: 'Comprehensive overview of the ProyectoWeb development project'
+description: 'Overview of the ProyectoWeb initiative and its objectives'
 icon: 'diagram-project'
 ---
 
-<Note>
-  This documentation is based on the project specification document: `Proyecto desarrollo web 2026-10.pdf` (9 pages)
-</Note>
+## About ProyectoWeb
 
-## Introduction
-
-ProyectoWeb is a web development initiative currently in early development stages. This project aims to deliver a modern web application using contemporary development practices and technologies.
-
-## Project Information
-
-<CardGroup cols={2}>
-  <Card title="Project Status" icon="clock">
-    Early Development Stage
-  </Card>
-  <Card title="Timeline" icon="calendar">
-    October 2026
-  </Card>
-  <Card title="Documentation" icon="file-pdf">
-    9-page specification available
-  </Card>
-  <Card title="Type" icon="code">
-    Web Application
-  </Card>
-</CardGroup>
-
-## Project Architecture
+ProyectoWeb is a web development project currently in its planning and specification phase. The project documentation and specifications guide the future development of a modern web application.
 
 <Info>
-  The architecture follows modern web development best practices with a focus on scalability and maintainability.
+  **Current Status**: Planning and Specification Phase
+  
+  The repository contains documentation and a comprehensive specification document that outlines the project's vision, requirements, and technical approach.
 </Info>
 
-### System Components
+## Project Documentation
 
-<AccordionGroup>
-  <Accordion title="Frontend Layer">
-    The presentation layer handles user interactions and provides an intuitive interface for end users. This component is responsible for:
-    
-    - User interface rendering
-    - Client-side validation
-    - State management
-    - API communication
-    - Responsive design implementation
-  </Accordion>
+The main project specification is contained in a PDF document:
 
-  <Accordion title="Backend Layer">
-    The application logic layer processes business rules and manages data flow:
-    
-    - Request handling and routing
-    - Business logic implementation
-    - Authentication and authorization
-    - Data validation and processing
-    - API endpoint management
-  </Accordion>
+<Card title="Proyecto desarrollo web 2026-10.pdf" icon="file-pdf">
+  **Location**: `Documentos/Proyecto desarrollo web 2026-10.pdf`
+  
+  **Size**: 9 pages
+  
+  **Contains**: Detailed requirements, specifications, and development plans
+  
+  **Date**: October 2026
+</Card>
 
-  <Accordion title="Data Layer">
-    The persistence layer handles data storage and retrieval:
-    
-    - Database management
-    - Data modeling
-    - Query optimization
-    - Data integrity and security
-    - Backup and recovery procedures
-  </Accordion>
+## Repository Structure
 
-  <Accordion title="Integration Layer">
-    External service integration and communication:
-    
-    - Third-party API integration
-    - Service orchestration
-    - Message queuing
-    - Event handling
-    - Microservices communication
-  </Accordion>
-</AccordionGroup>
+The current repository structure reflects the planning stage:
 
-## Technology Stack
+```
+ProyectoWeb/
+├── Documentos/               # Project documentation
+│   ├── Proyecto desarrollo web 2026-10.pdf
+│   └── HOLA ESTA ES UNA PRUEBA.txt
+├── README.md                 # Repository readme
+└── .git/                    # Git version control
+```
 
-### Core Technologies
+<Note>
+  As development progresses, the repository will expand to include source code, tests, configuration files, and other development artifacts.
+</Note>
 
-The project utilizes modern web technologies selected for their robustness, community support, and alignment with project requirements.
+## Project Goals
+
+While detailed specifications are in the PDF document, the overarching goals include:
 
 <CardGroup cols={2}>
-  <Card title="Frontend" icon="browser">
-    Modern JavaScript framework with component-based architecture
+  <Card title="Modern Web Development" icon="globe">
+    Build a contemporary web application using current best practices
   </Card>
-  <Card title="Backend" icon="server">
-    Scalable server-side technology for API development
+  <Card title="Quality Standards" icon="award">
+    Maintain high code quality and follow established guidelines
   </Card>
-  <Card title="Database" icon="database">
-    Reliable data storage solution with ACID compliance
+  <Card title="Scalable Architecture" icon="expand">
+    Design for growth and future enhancements
   </Card>
-  <Card title="Deployment" icon="cloud">
-    Cloud-based infrastructure for scalability
+  <Card title="Comprehensive Documentation" icon="book">
+    Provide clear documentation for developers and users
   </Card>
 </CardGroup>
 
 ## Development Approach
 
-### Methodology
-
-The project follows an iterative development approach:
-
-1. **Planning Phase** - Requirements gathering and architecture design
-2. **Development Phase** - Incremental feature implementation
-3. **Testing Phase** - Comprehensive quality assurance
-4. **Deployment Phase** - Staged rollout to production
-5. **Maintenance Phase** - Ongoing support and improvements
-
-### Quality Assurance
+The project follows a structured approach to web development:
 
 <Steps>
-  <Step title="Code Review">
-    All code changes undergo peer review before merging
+  <Step title="Planning & Specification">
+    **Current Phase**
+    
+    Defining requirements, architecture, and technical specifications.
   </Step>
-  <Step title="Automated Testing">
-    Unit, integration, and end-to-end tests ensure reliability
+
+  <Step title="Environment Setup">
+    Configuring development tools, version control, and workflows.
   </Step>
-  <Step title="Performance Testing">
-    Load and stress testing validate system capacity
+
+  <Step title="Implementation">
+    Building features according to specifications and requirements.
   </Step>
-  <Step title="Security Audits">
-    Regular security assessments identify vulnerabilities
+
+  <Step title="Testing & Quality Assurance">
+    Ensuring reliability through comprehensive testing strategies.
+  </Step>
+
+  <Step title="Deployment & Maintenance">
+    Deploying to production and maintaining the application.
   </Step>
 </Steps>
 
-## Project Goals
+## Key Areas
 
-<CardGroup cols={1}>
-  <Card title="Functionality" icon="check">
-    Deliver all required features with high quality and reliability
+<AccordionGroup>
+  <Accordion title="Requirements" icon="list-check">
+    Detailed functional and technical requirements are documented to guide development decisions. See the [Requirements](/project/requirements) page for more information.
+  </Accordion>
+
+  <Accordion title="Technical Specifications" icon="file-code">
+    Technical approach, architecture patterns, and implementation guidelines. See the [Specification](/project/specification) page for details.
+  </Accordion>
+
+  <Accordion title="Development Standards" icon="code-branch">
+    Coding standards, best practices, and workflows for contributors. See the [Development Guidelines](/development/guidelines) page.
+  </Accordion>
+
+  <Accordion title="Testing Strategy" icon="vial">
+    Approach to ensuring code quality and reliability. See the [Testing](/development/testing) page.
+  </Accordion>
+</AccordionGroup>
+
+## Documentation Structure
+
+This documentation is organized into several sections:
+
+<CardGroup cols={2}>
+  <Card title="Get Started" icon="rocket" href="/introduction">
+    Introduction and quick start guide
   </Card>
-  <Card title="Performance" icon="gauge-high">
-    Ensure fast load times and responsive user interactions
+  <Card title="Project Documentation" icon="folder-open" href="/project/requirements">
+    Requirements and specifications
   </Card>
-  <Card title="Security" icon="shield">
-    Implement robust security measures to protect user data
+  <Card title="Development" icon="code" href="/development/setup">
+    Setup guides and development practices
   </Card>
-  <Card title="Scalability" icon="chart-line">
-    Design for growth and increased user demand
-  </Card>
-  <Card title="Maintainability" icon="wrench">
-    Create clean, documented code for easy maintenance
+  <Card title="Resources" icon="books" href="/resources/references">
+    References and helpful materials
   </Card>
 </CardGroup>
-
-## Repository Structure
-
-The project repository is organized for clarity and ease of navigation:
-
-```
-ProyectoWeb/
-├── Documentos/          # Project documentation and specifications
-│   └── Proyecto desarrollo web 2026-10.pdf
-├── README.md            # Project readme file
-└── [Additional directories to be added during development]
-```
-
-## Documentation Reference
-
-<Warning>
-  For detailed technical specifications, architecture diagrams, and comprehensive requirements, please refer to the complete project specification document:
-  
-  **Proyecto desarrollo web 2026-10.pdf** (9 pages)
-  
-  Located in: `Documentos/Proyecto desarrollo web 2026-10.pdf`
-</Warning>
 
 ## Next Steps
 
 <Steps>
-  <Step title="Review Requirements">
-    Examine the detailed requirements in the specification document
+  <Step title="Review the Specification">
+    Read the PDF document in `Documentos/Proyecto desarrollo web 2026-10.pdf` for complete details.
   </Step>
-  <Step title="Set Up Environment">
-    Configure development environment and tools
+
+  <Step title="Understand Requirements">
+    Review the [requirements page](/project/requirements) to understand what needs to be built.
   </Step>
-  <Step title="Begin Implementation">
-    Start development following the project timeline
+
+  <Step title="Explore Guidelines">
+    Familiarize yourself with [development guidelines](/development/guidelines) and best practices.
   </Step>
-  <Step title="Regular Updates">
-    Maintain documentation as the project evolves
+
+  <Step title="Prepare for Development">
+    When ready to begin development, follow the [setup guide](/development/setup).
   </Step>
 </Steps>
 
-## Related Documentation
-
-<CardGroup cols={2}>
-  <Card title="Requirements" icon="list-check" href="/project/requirements">
-    Detailed project requirements and user stories
-  </Card>
-  <Card title="Specification" icon="file-lines" href="/project/specification">
-    Technical specifications and design details
-  </Card>
-</CardGroup>
+<Note>
+  For the most complete and authoritative information about the project, refer to the specification PDF document in the repository.
+</Note>

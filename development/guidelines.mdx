@@ -1,306 +1,222 @@
 ---
 title: 'Development Guidelines'
-description: 'Coding standards and best practices for ProyectoWeb development'
+description: 'General coding standards and best practices for web development'
 icon: 'book-open'
 ---
 
-## Code Style
+<Note>
+  **Project Status:** ProyectoWeb is currently in the planning stage. This guide provides general web development best practices and coding standards that can be applied when development begins.
+</Note>
 
-Maintaining consistent code style across the project ensures readability and maintainability.
+## Code Quality Principles
+
+Maintaining consistent code style and quality ensures readability, maintainability, and team collaboration.
 
 ### General Principles
 
 <CardGroup cols={2}>
   <Card title="Clean Code" icon="broom" color="#3B82F6">
-    Write self-documenting, readable code
+    Write self-documenting, readable code that others can understand
   </Card>
   <Card title="DRY Principle" icon="repeat" color="#3B82F6">
-    Don't Repeat Yourself - reuse code
+    Don't Repeat Yourself - avoid code duplication
   </Card>
   <Card title="SOLID Principles" icon="cube" color="#3B82F6">
     Follow object-oriented design principles
   </Card>
   <Card title="KISS" icon="heart" color="#3B82F6">
-    Keep It Simple, Stupid
+    Keep It Simple - favor simplicity over complexity
   </Card>
 </CardGroup>
 
-### JavaScript/TypeScript Standards
+## Naming Conventions
+
+### General Naming Guidelines
 
 <Tabs>
-  <Tab title="Naming Conventions">
-    Follow these naming conventions consistently:
+  <Tab title="Variables and Functions">
+    **Use descriptive, meaningful names:**
     
     ```javascript
-    // Variables and functions: camelCase
+    // Good
     const userName = 'John';
-    function getUserData() { }
+    const totalPrice = calculateTotal(items);
+    function getUserById(id) { }
     
-    // Classes and components: PascalCase
-    class UserService { }
-    const UserProfile = () => { };
+    // Avoid
+    const un = 'John';
+    const tp = calc(i);
+    function get(x) { }
+    ```
     
-    // Constants: UPPER_SNAKE_CASE
-    const API_BASE_URL = 'https://api.example.com';
-    const MAX_RETRY_ATTEMPTS = 3;
-    
-    // Private methods: prefix with underscore
-    class Example {
-      _privateMethod() { }
-    }
-    
-    // Boolean variables: use is/has/should prefix
+    **Boolean variables should be questions:**
+    ```javascript
     const isActive = true;
     const hasPermission = false;
     const shouldRender = true;
+    const canEdit = false;
     ```
   </Tab>
 
-  <Tab title="File Organization">
-    ```bash
-    src/
-    ├── components/          # Reusable UI components
-    │   ├── common/         # Shared components
-    │   ├── layout/         # Layout components
-    │   └── features/       # Feature-specific components
-    ├── pages/              # Page components
-    ├── hooks/              # Custom React hooks
-    ├── utils/              # Utility functions
-    ├── services/           # API and external services
-    ├── stores/             # State management
-    ├── types/              # TypeScript type definitions
-    ├── constants/          # Application constants
-    └── styles/             # Global styles
-    ```
-  </Tab>
-
-  <Tab title="Import Order">
-    Organize imports in this order:
+  <Tab title="Classes and Components">
+    **Use PascalCase for classes and components:**
     
     ```javascript
-    // 1. External libraries
-    import React, { useState, useEffect } from 'react';
-    import { useRouter } from 'next/router';
+    // Classes
+    class UserService { }
+    class DatabaseConnection { }
     
-    // 2. Internal modules
-    import { Button } from '@/components/common';
-    import { useAuth } from '@/hooks/useAuth';
+    // Components (React example)
+    const UserProfile = () => { };
+    const NavigationBar = () => { };
+    ```
+  </Tab>
+
+  <Tab title="Constants">
+    **Use UPPER_SNAKE_CASE for constants:**
     
-    // 3. Utilities and helpers
-    import { formatDate } from '@/utils/date';
-    import { API_ENDPOINTS } from '@/constants/api';
+    ```javascript
+    const API_BASE_URL = 'https://api.example.com';
+    const MAX_RETRY_ATTEMPTS = 3;
+    const DEFAULT_TIMEOUT = 5000;
+    const HTTP_STATUS_OK = 200;
+    ```
+  </Tab>
+
+  <Tab title="Files and Folders">
+    **Common conventions:**
     
-    // 4. Types
-    import type { User } from '@/types/user';
+    ```bash
+    # Use kebab-case for file names
+    user-service.js
+    api-client.js
+    database-connection.js
     
-    // 5. Styles
-    import styles from './Component.module.css';
+    # Or PascalCase for component files
+    UserProfile.jsx
+    NavigationBar.tsx
+    
+    # Use lowercase for folders
+    components/
+    services/
+    utils/
     ```
   </Tab>
 </Tabs>
 
-## Component Guidelines
+## Code Organization
 
-### React Component Best Practices
+### Project Structure
 
-<Steps>
-  <Step title="Use Functional Components">
-    Prefer functional components with hooks over class components:
-    
-    ```jsx
-    // Good
-    const UserCard = ({ user }) => {
-      const [isExpanded, setIsExpanded] = useState(false);
-      
-      return (
-        <div className="user-card">
-          <h3>{user.name}</h3>
-          {isExpanded && <p>{user.bio}</p>}
-          <button onClick={() => setIsExpanded(!isExpanded)}>
-            {isExpanded ? 'Show Less' : 'Show More'}
-          </button>
-        </div>
-      );
-    };
-    ```
-  </Step>
+A typical web project structure:
 
-  <Step title="Component Composition">
-    Break down complex components into smaller, reusable pieces:
-    
-    ```jsx
-    // Instead of one large component
-    const UserDashboard = () => {
-      return (
-        <div>
-          <UserHeader />
-          <UserStats />
-          <UserActivity />
-          <UserSettings />
-        </div>
-      );
-    };
-    ```
-  </Step>
-
-  <Step title="Props Validation">
-    Use TypeScript or PropTypes for type safety:
-    
-    ```typescript
-    interface UserCardProps {
-      user: {
-        id: string;
-        name: string;
-        email: string;
-        role?: 'admin' | 'user';
-      };
-      onEdit?: (userId: string) => void;
-      isEditable?: boolean;
-    }
-    
-    const UserCard: React.FC<UserCardProps> = ({ 
-      user, 
-      onEdit, 
-      isEditable = false 
-    }) => {
-      // Component logic
-    };
-    ```
-  </Step>
-
-  <Step title="Custom Hooks">
-    Extract reusable logic into custom hooks:
-    
-    ```javascript
-    // hooks/useUser.js
-    export const useUser = (userId) => {
-      const [user, setUser] = useState(null);
-      const [loading, setLoading] = useState(true);
-      const [error, setError] = useState(null);
-      
-      useEffect(() => {
-        fetchUser(userId)
-          .then(setUser)
-          .catch(setError)
-          .finally(() => setLoading(false));
-      }, [userId]);
-      
-      return { user, loading, error };
-    };
-    ```
-  </Step>
-</Steps>
-
-### Performance Optimization
-
-<AccordionGroup>
-  <Accordion title="Memoization">
-    Use React.memo, useMemo, and useCallback appropriately:
-    
-    ```javascript
-    // Memoize expensive computations
-    const expensiveValue = useMemo(() => {
-      return computeExpensiveValue(data);
-    }, [data]);
-    
-    // Memoize callback functions
-    const handleClick = useCallback(() => {
-      doSomething(id);
-    }, [id]);
-    
-    // Memoize components
-    const MemoizedComponent = React.memo(Component);
-    ```
-  </Accordion>
-
-  <Accordion title="Code Splitting">
-    Implement lazy loading for better initial load times:
-    
-    ```javascript
-    import { lazy, Suspense } from 'react';
-    
-    const HeavyComponent = lazy(() => import('./HeavyComponent'));
-    
-    const App = () => (
-      <Suspense fallback={<LoadingSpinner />}>
-        <HeavyComponent />
-      </Suspense>
-    );
-    ```
-  </Accordion>
-
-  <Accordion title="Image Optimization">
-    Use appropriate image formats and lazy loading:
-    
-    ```jsx
-    // Next.js Image component
-    import Image from 'next/image';
-    
-    <Image
-      src="/photo.jpg"
-      alt="Description"
-      width={500}
-      height={300}
-      loading="lazy"
-      placeholder="blur"
-    />
-    ```
-  </Accordion>
-</AccordionGroup>
-
-## API and Data Handling
-
-### API Integration
-
-<Warning>
-  Always validate and sanitize data received from external APIs before using it in your application.
-</Warning>
-
-```javascript
-// services/api.js
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Request interceptor
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Response interceptor
-api.interceptors.response.use(
-  (response) => response.data,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Handle unauthorized
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
-
-export default api;
+```bash
+project-root/
+├── src/                    # Source code
+│   ├── components/        # Reusable components
+│   ├── pages/            # Page components
+│   ├── services/         # Business logic and API calls
+│   ├── utils/            # Utility functions
+│   ├── hooks/            # Custom hooks (if using React)
+│   ├── types/            # Type definitions
+│   ├── constants/        # Application constants
+│   └── styles/           # Stylesheets
+├── tests/                # Test files
+├── public/               # Static assets
+├── docs/                 # Documentation
+└── config/               # Configuration files
 ```
 
-### Error Handling
+<Note>
+  The actual structure should be determined based on the chosen framework and project requirements.
+</Note>
 
-<Tabs>
-  <Tab title="Try-Catch Pattern">
+### Import Organization
+
+Organize imports in a consistent order:
+
+```javascript
+// 1. External libraries
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+// 2. Internal modules and components
+import { Button } from '@/components/common';
+import { UserCard } from '@/components/users';
+
+// 3. Utilities and helpers
+import { formatDate } from '@/utils/date';
+import { validateEmail } from '@/utils/validation';
+
+// 4. Constants
+import { API_ENDPOINTS } from '@/constants/api';
+
+// 5. Types (if using TypeScript)
+import type { User } from '@/types/user';
+
+// 6. Styles
+import styles from './Component.module.css';
+```
+
+## Writing Clean Code
+
+### Function Guidelines
+
+<Steps>
+  <Step title="Keep Functions Small">
+    Functions should do one thing and do it well:
+    
     ```javascript
-    const fetchUserData = async (userId) => {
+    // Good - focused function
+    function calculateTotal(items) {
+      return items.reduce((sum, item) => sum + item.price, 0);
+    }
+    
+    function applyDiscount(total, discountPercent) {
+      return total * (1 - discountPercent / 100);
+    }
+    
+    // Avoid - doing too much
+    function processOrder(items, discount, user) {
+      const total = items.reduce((sum, item) => sum + item.price, 0);
+      const discounted = total * (1 - discount / 100);
+      const tax = discounted * 0.1;
+      // ... too many responsibilities
+    }
+    ```
+  </Step>
+
+  <Step title="Use Descriptive Parameters">
+    ```javascript
+    // Good
+    function createUser(email, password, firstName, lastName) { }
+    
+    // Better with object parameter
+    function createUser({ email, password, firstName, lastName }) { }
+    
+    // Avoid
+    function createUser(a, b, c, d) { }
+    ```
+  </Step>
+
+  <Step title="Minimize Side Effects">
+    ```javascript
+    // Pure function - no side effects
+    function add(a, b) {
+      return a + b;
+    }
+    
+    // Function with side effects (document clearly)
+    function updateUser(userId, data) {
+      // Side effect: modifies database
+      return database.update('users', userId, data);
+    }
+    ```
+  </Step>
+
+  <Step title="Handle Errors Gracefully">
+    ```javascript
+    async function fetchUser(userId) {
       try {
         const response = await api.get(`/users/${userId}`);
         return { data: response, error: null };
@@ -311,230 +227,418 @@ export default api;
           error: error.message || 'Failed to fetch user' 
         };
       }
-    };
+    }
     ```
-  </Tab>
+  </Step>
+</Steps>
 
-  <Tab title="Error Boundaries">
-    ```jsx
-    class ErrorBoundary extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = { hasError: false };
+## Error Handling
+
+### Defensive Programming
+
+<AccordionGroup>
+  <Accordion title="Validate Inputs">
+    Always validate function inputs:
+    
+    ```javascript
+    function divide(a, b) {
+      if (typeof a !== 'number' || typeof b !== 'number') {
+        throw new Error('Both arguments must be numbers');
       }
-
-      static getDerivedStateFromError(error) {
-        return { hasError: true };
+      if (b === 0) {
+        throw new Error('Cannot divide by zero');
       }
+      return a / b;
+    }
+    ```
+  </Accordion>
 
-      componentDidCatch(error, errorInfo) {
-        console.error('Error caught:', error, errorInfo);
-      }
+  <Accordion title="Provide Meaningful Errors">
+    ```javascript
+    // Good
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+    
+    // Avoid
+    if (!user) {
+      throw new Error('Error');
+    }
+    ```
+  </Accordion>
 
-      render() {
-        if (this.state.hasError) {
-          return <ErrorFallback />;
-        }
-        return this.props.children;
+  <Accordion title="Use Try-Catch Appropriately">
+    ```javascript
+    async function processData(data) {
+      try {
+        const validated = validateData(data);
+        const processed = await processValidData(validated);
+        return processed;
+      } catch (error) {
+        // Log error for debugging
+        console.error('Data processing failed:', error);
+        
+        // Return user-friendly message
+        throw new Error('Unable to process data. Please try again.');
       }
     }
     ```
+  </Accordion>
+</AccordionGroup>
+
+## Version Control Best Practices
+
+### Git Workflow
+
+<Steps>
+  <Step title="Write Clear Commit Messages">
+    Follow conventional commit format:
+    
+    ```bash
+    # Format
+    <type>(<scope>): <subject>
+    
+    # Types
+    feat: New feature
+    fix: Bug fix
+    docs: Documentation changes
+    style: Code style (formatting, missing semi-colons, etc.)
+    refactor: Code refactoring
+    test: Adding or updating tests
+    chore: Maintenance tasks
+    
+    # Examples
+    feat(auth): add OAuth2 login support
+    fix(api): resolve race condition in user data fetch
+    docs(readme): update installation instructions
+    refactor(components): simplify UserCard component logic
+    ```
+  </Step>
+
+  <Step title="Use Branches">
+    Create branches for features and fixes:
+    
+    ```bash
+    # Feature branch
+    git checkout -b feature/user-authentication
+    
+    # Bug fix branch
+    git checkout -b fix/login-validation-error
+    
+    # Never commit directly to main/master
+    ```
+  </Step>
+
+  <Step title="Keep Commits Focused">
+    Each commit should represent a single logical change:
+    
+    ```bash
+    # Good - focused commits
+    git commit -m "feat(auth): add login form component"
+    git commit -m "feat(auth): implement login validation"
+    git commit -m "feat(auth): add login API integration"
+    
+    # Avoid - too many changes in one commit
+    git commit -m "add login, fix bugs, update styles, refactor"
+    ```
+  </Step>
+
+  <Step title="Review Before Committing">
+    ```bash
+    # Check what will be committed
+    git status
+    git diff
+    
+    # Stage specific files
+    git add <file1> <file2>
+    
+    # Commit
+    git commit -m "feat: add new feature"
+    ```
+  </Step>
+</Steps>
+
+### Branch Strategy
+
+<Tip>
+  Use a branching strategy that fits your team size and workflow (Git Flow, GitHub Flow, etc.)
+</Tip>
+
+- **main/master**: Production-ready code
+- **develop**: Integration branch for features
+- **feature/\***: New features
+- **fix/\***: Bug fixes
+- **hotfix/\***: Critical production fixes
+
+## Code Documentation
+
+### Comments Best Practices
+
+<Tabs>
+  <Tab title="When to Comment">
+    **Do comment:**
+    - Complex algorithms or business logic
+    - Non-obvious decisions
+    - Workarounds or hacks
+    - Public APIs and functions
+    - Regular expressions
+    
+    **Don't comment:**
+    - Obvious code
+    - What the code does (code should be self-explanatory)
+    - Redundant information
   </Tab>
 
-  <Tab title="Custom Error Types">
-    ```typescript
-    class APIError extends Error {
-      constructor(
-        message: string,
-        public statusCode: number,
-        public data?: any
-      ) {
-        super(message);
-        this.name = 'APIError';
-      }
-    }
+  <Tab title="Good Comments">
+    ```javascript
+    // Good: Explains WHY
+    // Using setTimeout instead of setInterval to prevent
+    // overlapping calls if the API response is slow
+    setTimeout(checkStatus, 5000);
+    
+    // Good: Documents complex logic
+    // Calculate prorated amount based on days used
+    // (total / 30) * daysUsed
+    const proratedAmount = (subscriptionPrice / 30) * daysActive;
+    
+    // Avoid: States the obvious
+    // Set user name
+    user.name = 'John';
+    
+    // Avoid: Commented-out code
+    // const oldImplementation = () => { }
+    ```
+  </Tab>
 
-    class ValidationError extends Error {
-      constructor(
-        message: string,
-        public fields: Record<string, string>
-      ) {
-        super(message);
-        this.name = 'ValidationError';
-      }
+  <Tab title="Function Documentation">
+    ```javascript
+    /**
+     * Retrieves a user by their unique identifier
+     * 
+     * @param {string} userId - The unique user identifier
+     * @param {Object} options - Optional parameters
+     * @param {boolean} options.includeDeleted - Include deleted users
+     * @returns {Promise<User|null>} The user object or null if not found
+     * @throws {ValidationError} If userId is invalid
+     * 
+     * @example
+     * const user = await getUserById('123', { includeDeleted: false });
+     */
+    async function getUserById(userId, options = {}) {
+      // Implementation
     }
     ```
   </Tab>
 </Tabs>
 
-## Git Workflow
-
-### Commit Messages
-
-Follow conventional commit format:
-
-```bash
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
-```
-
-**Types:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, etc.)
-- `refactor`: Code refactoring
-- `test`: Adding or updating tests
-- `chore`: Maintenance tasks
-
-**Examples:**
-```bash
-feat(auth): add OAuth2 login support
-
-fix(api): resolve race condition in user data fetch
-
-docs(readme): update installation instructions
-
-refactor(components): simplify UserCard component logic
-```
-
-### Branch Strategy
-
-<Steps>
-  <Step title="Main Branch">
-    `main` - Production-ready code. Protected branch.
-  </Step>
-
-  <Step title="Development Branch">
-    `develop` - Integration branch for features.
-  </Step>
-
-  <Step title="Feature Branches">
-    `feature/feature-name` - New features
-    
-    ```bash
-    git checkout -b feature/user-authentication
-    ```
-  </Step>
-
-  <Step title="Bug Fix Branches">
-    `fix/bug-description` - Bug fixes
-    
-    ```bash
-    git checkout -b fix/login-validation-error
-    ```
-  </Step>
-
-  <Step title="Hotfix Branches">
-    `hotfix/critical-issue` - Critical production fixes
-  </Step>
-</Steps>
-
-<Tip>
-  Always create a new branch for your work. Never commit directly to `main` or `develop`.
-</Tip>
-
-## Code Reviews
-
-### Review Checklist
-
-- [ ] Code follows project style guidelines
-- [ ] All tests pass
-- [ ] New features include tests
-- [ ] Documentation is updated
-- [ ] No console.log or debugging code
-- [ ] Security considerations addressed
-- [ ] Performance implications considered
-- [ ] Accessibility standards met
-
-### Providing Feedback
-
-<AccordionGroup>
-  <Accordion title="Be Constructive">
-    - Focus on the code, not the person
-    - Explain the "why" behind suggestions
-    - Offer alternatives or examples
-    - Acknowledge good work
-  </Accordion>
-
-  <Accordion title="Use Labels">
-    - **Nit**: Minor suggestion, not blocking
-    - **Question**: Asking for clarification
-    - **Suggestion**: Proposed improvement
-    - **Issue**: Must be addressed before merge
-  </Accordion>
-</AccordionGroup>
-
 ## Security Best Practices
 
 <Warning>
-  Security is everyone's responsibility. Always consider security implications in your code.
+  Security should be considered throughout the development process, not as an afterthought.
 </Warning>
 
 <CardGroup cols={2}>
   <Card title="Input Validation" icon="shield-check">
-    Always validate and sanitize user inputs
+    Always validate and sanitize user inputs to prevent injection attacks
   </Card>
   <Card title="Authentication" icon="lock">
-    Use secure authentication methods
+    Use proven authentication libraries and never roll your own crypto
   </Card>
-  <Card title="Data Encryption" icon="key">
-    Encrypt sensitive data at rest and in transit
+  <Card title="Data Protection" icon="key">
+    Encrypt sensitive data and never store passwords in plain text
   </Card>
   <Card title="Dependencies" icon="box-check">
-    Keep dependencies updated and audited
+    Keep dependencies updated and audit for vulnerabilities regularly
   </Card>
 </CardGroup>
 
-```javascript
-// Input sanitization example
-import DOMPurify from 'dompurify';
-
-const sanitizeInput = (input) => {
-  return DOMPurify.sanitize(input, {
-    ALLOWED_TAGS: ['b', 'i', 'em', 'strong'],
-  });
-};
-
-// Secure password handling
-import bcrypt from 'bcrypt';
-
-const hashPassword = async (password) => {
-  const saltRounds = 10;
-  return await bcrypt.hash(password, saltRounds);
-};
-```
-
-## Documentation
-
-### Code Comments
+### Security Guidelines
 
 ```javascript
-/**
- * Fetches user data from the API
- * @param {string} userId - The unique identifier for the user
- * @returns {Promise<User>} The user object
- * @throws {APIError} If the request fails
- */
-async function fetchUser(userId) {
-  // Implementation
+// Never expose sensitive information
+// Bad
+const config = {
+  apiKey: 'sk_live_abc123xyz',  // Exposed in code
+  password: 'mypassword'
+};
+
+// Good - use environment variables
+const config = {
+  apiKey: process.env.API_KEY,
+  dbPassword: process.env.DB_PASSWORD
+};
+
+// Always validate and sanitize inputs
+function processUserInput(input) {
+  // Validate
+  if (!input || typeof input !== 'string') {
+    throw new Error('Invalid input');
+  }
+  
+  // Sanitize
+  const sanitized = input.trim().replace(/[<>]/g, '');
+  
+  return sanitized;
 }
+
+// Use parameterized queries (example with SQL)
+// Bad - vulnerable to SQL injection
+const query = `SELECT * FROM users WHERE email = '${email}'`;
+
+// Good - parameterized query
+const query = 'SELECT * FROM users WHERE email = ?';
+database.execute(query, [email]);
 ```
 
-<Tip>
-  Write comments that explain "why", not "what". The code should be self-explanatory for the "what".
-</Tip>
+## Performance Considerations
+
+<AccordionGroup>
+  <Accordion title="Optimize Algorithms">
+    Choose efficient algorithms and data structures:
+    
+    ```javascript
+    // Less efficient - O(n²)
+    function hasDuplicates(array) {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = i + 1; j < array.length; j++) {
+          if (array[i] === array[j]) return true;
+        }
+      }
+      return false;
+    }
+    
+    // More efficient - O(n)
+    function hasDuplicates(array) {
+      const seen = new Set();
+      for (const item of array) {
+        if (seen.has(item)) return true;
+        seen.add(item);
+      }
+      return false;
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Avoid Premature Optimization">
+    - Write clear, correct code first
+    - Profile to find actual bottlenecks
+    - Optimize only where it matters
+    - Measure the impact of optimizations
+  </Accordion>
+
+  <Accordion title="Cache When Appropriate">
+    ```javascript
+    // Memoization example
+    const memoize = (fn) => {
+      const cache = new Map();
+      return (...args) => {
+        const key = JSON.stringify(args);
+        if (cache.has(key)) {
+          return cache.get(key);
+        }
+        const result = fn(...args);
+        cache.set(key, result);
+        return result;
+      };
+    };
+    
+    const expensiveOperation = memoize((n) => {
+      // Some expensive computation
+      return n * n;
+    });
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Testing Guidelines
+
+<Note>
+  Write tests alongside your code, not as an afterthought.
+</Note>
+
+### Test Best Practices
+
+- Write tests that are clear and focused
+- Test behavior, not implementation
+- Use descriptive test names
+- Keep tests independent
+- Mock external dependencies
+- Aim for good coverage of critical paths
+
+```javascript
+// Good test structure
+describe('User Service', () => {
+  describe('createUser', () => {
+    it('creates a user with valid data', async () => {
+      // Arrange
+      const userData = { email: 'test@example.com', name: 'Test' };
+      
+      // Act
+      const user = await createUser(userData);
+      
+      // Assert
+      expect(user).toBeDefined();
+      expect(user.email).toBe(userData.email);
+    });
+    
+    it('throws error when email is invalid', async () => {
+      // Arrange
+      const userData = { email: 'invalid', name: 'Test' };
+      
+      // Act & Assert
+      await expect(createUser(userData)).rejects.toThrow('Invalid email');
+    });
+  });
+});
+```
+
+## Code Review Guidelines
+
+### Reviewing Code
+
+<AccordionGroup>
+  <Accordion title="Be Constructive">
+    - Focus on the code, not the person
+    - Explain the reasoning behind suggestions
+    - Offer alternatives or examples
+    - Acknowledge good work
+    - Ask questions rather than making demands
+  </Accordion>
+
+  <Accordion title="Review Checklist">
+    - Does the code work correctly?
+    - Is it easy to understand?
+    - Does it follow project conventions?
+    - Are there tests?
+    - Are there security concerns?
+    - Are there performance issues?
+    - Is documentation updated?
+  </Accordion>
+
+  <Accordion title="Provide Context">
+    ```markdown
+    # Good feedback
+    "Consider using a Map instead of an object here for better 
+    performance when dealing with large datasets. Maps have O(1) 
+    lookup time and handle iteration better."
+    
+    # Less helpful feedback
+    "Use Map instead"
+    ```
+  </Accordion>
+</AccordionGroup>
 
 ## Next Steps
 
 <CardGroup cols={2}>
   <Card title="Setup Guide" icon="laptop-code" href="/development/setup">
-    Get your development environment ready
+    Learn about development environment setup
   </Card>
   <Card title="Testing" icon="flask" href="/development/testing">
-    Learn about our testing practices
+    Explore testing strategies and best practices
   </Card>
 </CardGroup>
+
+<Tip>
+  When ProyectoWeb moves to implementation, apply these general best practices while following the specific requirements in the project specification document.
+</Tip>

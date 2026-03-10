@@ -1,116 +1,105 @@
 ---
 title: 'Project Requirements'
-description: 'Detailed requirements and specifications for ProyectoWeb'
+description: 'General requirements and best practices for ProyectoWeb planning'
 icon: 'list-check'
 ---
 
 <Info>
-  This page outlines the functional and non-functional requirements for the ProyectoWeb development project.
+  This page outlines general web development requirements and best practices for the ProyectoWeb project currently in planning stage.
 </Info>
+
+## Project Status
+
+<Warning>
+  **Planning Stage:** This project is currently in the planning phase. The complete project specification is documented in: `Documentos/Proyecto desarrollo web 2026-10.pdf` (9 pages).
+</Warning>
+
+<Note>
+  The source repository contains:
+  - Project specification PDF document (9 pages)
+  - Planning documentation
+  - No implementation code yet
+</Note>
 
 ## Requirements Overview
 
-The project requirements are derived from the comprehensive specification document and stakeholder consultations. These requirements guide the development process and serve as acceptance criteria for project delivery.
+The project requirements will be derived from the comprehensive specification document (`Proyecto desarrollo web 2026-10.pdf`). These requirements will guide the development process once implementation begins and serve as acceptance criteria for project delivery.
 
-<Note>
-  Complete requirements are detailed in: `Documentos/Proyecto desarrollo web 2026-10.pdf`
-</Note>
+## General Web Development Requirements
 
-## Functional Requirements
+When development begins, typical web project requirements will include:
+
+### Functional Requirements
 
 Functional requirements define what the system should do and how it should behave.
 
-### Core Features
-
 <AccordionGroup>
-  <Accordion title="FR-001: User Management" icon="users">
-    **Priority:** High
+  <Accordion title="User Management" icon="users">
+    **Priority:** Typically High
     
-    The system shall provide comprehensive user management capabilities:
+    Modern web applications often include:
     
-    - User registration with email verification
-    - Secure authentication mechanism
-    - Password reset and recovery
+    - User registration and authentication
+    - Password management and recovery
     - User profile management
-    - Role-based access control
+    - Access control and permissions
     
-    **Acceptance Criteria:**
-    - Users can register with valid email addresses
-    - Authentication tokens expire after defined period
-    - Password policies are enforced
-    - User sessions are managed securely
+    **Best Practices:**
+    - Implement secure authentication mechanisms
+    - Use password hashing (bcrypt, argon2)
+    - Validate email addresses
+    - Implement session management
   </Accordion>
 
-  <Accordion title="FR-002: Content Management" icon="file-pen">
-    **Priority:** High
+  <Accordion title="Content Management" icon="file-pen">
+    **Priority:** Varies by project
     
-    The system shall enable content creation, modification, and deletion:
+    Content management typically involves:
     
-    - Create new content items
-    - Edit existing content
-    - Delete content with confirmation
-    - Version control for content changes
-    - Content categorization and tagging
+    - Creating and editing content
+    - Managing content lifecycle
+    - Version control for changes
+    - Content organization and categorization
     
-    **Acceptance Criteria:**
-    - Content changes are tracked with timestamps
-    - Users can only modify authorized content
-    - Deleted content can be recovered within retention period
-    - Content validation prevents malformed data
+    **Best Practices:**
+    - Track changes with timestamps
+    - Implement proper authorization
+    - Validate input data
+    - Consider soft deletes for recovery
   </Accordion>
 
-  <Accordion title="FR-003: Search and Filtering" icon="magnifying-glass">
-    **Priority:** Medium
+  <Accordion title="Search and Filtering" icon="magnifying-glass">
+    **Priority:** Depends on data volume
     
-    The system shall provide robust search capabilities:
+    Search functionality should provide:
     
-    - Full-text search across content
+    - Full-text search capabilities
     - Advanced filtering options
-    - Search result sorting
-    - Search history and suggestions
-    - Faceted search navigation
+    - Result sorting and pagination
+    - User-friendly search interface
     
-    **Acceptance Criteria:**
-    - Search results appear within 2 seconds
-    - Filters can be combined
-    - Search handles special characters
-    - Results are paginated for performance
+    **Best Practices:**
+    - Optimize search queries for performance
+    - Index searchable fields
+    - Handle special characters appropriately
+    - Paginate large result sets
   </Accordion>
 
-  <Accordion title="FR-004: Data Export" icon="download">
-    **Priority:** Low
+  <Accordion title="Data Export" icon="download">
+    **Priority:** Based on business needs
     
-    The system shall allow data export in multiple formats:
+    Data export features may include:
     
-    - Export to CSV format
-    - Export to JSON format
-    - Export to PDF reports
-    - Scheduled exports
+    - Multiple export formats (CSV, JSON, PDF)
+    - Filtered exports
     - Bulk export capabilities
+    - Scheduled exports
     
-    **Acceptance Criteria:**
-    - Exports maintain data integrity
-    - Large exports are handled asynchronously
-    - Export format is correctly structured
-    - Users are notified when exports complete
-  </Accordion>
-
-  <Accordion title="FR-005: Notifications" icon="bell">
-    **Priority:** Medium
-    
-    The system shall provide notification mechanisms:
-    
-    - Email notifications
-    - In-app notifications
-    - Notification preferences
-    - Notification history
-    - Real-time alerts
-    
-    **Acceptance Criteria:**
-    - Notifications are delivered reliably
-    - Users can configure preferences
-    - Notification content is clear and actionable
-    - Delivery failures are logged
+    **Best Practices:**
+    - Maintain data integrity during export
+    - Handle large exports asynchronously
+    - Provide user feedback
+    - Log export activities
   </Accordion>
 </AccordionGroup>
 
@@ -122,177 +111,162 @@ Non-functional requirements define system qualities and constraints.
 
 <CardGroup cols={2}>
   <Card title="Response Time" icon="clock">
-    **Target:** < 2 seconds
+    **Best Practice Targets:**
     
-    - Page load time under 2 seconds
-    - API response under 500ms
-    - Database queries optimized
-  </Card>
-  
-  <Card title="Throughput" icon="gauge">
-    **Target:** 1000 req/sec
-    
-    - Handle concurrent users
-    - Scalable architecture
-    - Load balancing implemented
-  </Card>
-  
-  <Card title="Availability" icon="check-circle">
-    **Target:** 99.9% uptime
-    
-    - Minimal planned downtime
-    - Redundant systems
-    - Disaster recovery plan
+    - Page load under 3 seconds
+    - API response under 1 second
+    - Optimize database queries
+    - Use caching strategically
   </Card>
   
   <Card title="Scalability" icon="arrows-maximize">
-    **Target:** Horizontal scaling
+    **Design Considerations:**
     
-    - Cloud-native architecture
-    - Auto-scaling capabilities
-    - Database replication
+    - Plan for growth
+    - Use scalable architecture
+    - Consider cloud services
+    - Implement efficient algorithms
+  </Card>
+  
+  <Card title="Availability" icon="check-circle">
+    **Reliability Goals:**
+    
+    - Minimize downtime
+    - Implement error handling
+    - Plan for disaster recovery
+    - Monitor system health
+  </Card>
+  
+  <Card title="Throughput" icon="gauge">
+    **Capacity Planning:**
+    
+    - Estimate concurrent users
+    - Test under load
+    - Implement load balancing
+    - Scale as needed
   </Card>
 </CardGroup>
 
 ### Security Requirements
 
 <Warning>
-  Security is a critical aspect of the project and must be addressed at all development stages.
+  Security must be addressed at all development stages, from initial planning through deployment and maintenance.
 </Warning>
 
 <Steps>
   <Step title="Authentication">
-    - Multi-factor authentication support
-    - Secure session management
-    - Token-based authentication (JWT)
-    - OAuth 2.0 integration for third-party login
+    - Use established authentication protocols
+    - Implement secure session management
+    - Consider multi-factor authentication
+    - Follow OWASP guidelines
   </Step>
   
   <Step title="Authorization">
-    - Role-based access control (RBAC)
-    - Permission granularity
-    - API endpoint protection
-    - Resource-level authorization
+    - Implement role-based access control
+    - Validate permissions at all levels
+    - Protect API endpoints
+    - Follow principle of least privilege
   </Step>
   
   <Step title="Data Protection">
-    - Encryption at rest (AES-256)
-    - Encryption in transit (TLS 1.3)
-    - Secure key management
-    - Data anonymization for testing
+    - Encrypt sensitive data at rest
+    - Use HTTPS for all communications
+    - Implement secure key management
+    - Anonymize data for testing
   </Step>
   
   <Step title="Compliance">
-    - GDPR compliance for user data
-    - Data retention policies
-    - Audit logging
-    - Privacy by design principles
+    - Follow privacy regulations (GDPR, etc.)
+    - Implement data retention policies
+    - Enable audit logging
+    - Design with privacy in mind
   </Step>
 </Steps>
 
 ### Usability Requirements
 
 <Accordion title="User Interface Standards">
-  - Consistent design language across all pages
-  - Responsive design for mobile, tablet, and desktop
-  - Accessibility compliance (WCAG 2.1 Level AA)
-  - Intuitive navigation structure
-  - Clear error messages and validation feedback
-  - Maximum 3 clicks to reach any feature
+  - Maintain consistent design throughout
+  - Ensure responsive design for all devices
+  - Follow accessibility standards (WCAG 2.1)
+  - Create intuitive navigation
+  - Provide clear feedback and error messages
+  - Minimize clicks to reach features
 </Accordion>
 
 <Accordion title="Accessibility">
-  - Keyboard navigation support
-  - Screen reader compatibility
-  - Proper ARIA labels
-  - Sufficient color contrast (4.5:1 minimum)
-  - Resizable text without layout breaking
-  - Alternative text for images
+  - Support keyboard navigation
+  - Ensure screen reader compatibility
+  - Use proper ARIA labels
+  - Maintain sufficient color contrast
+  - Allow text resizing
+  - Provide alternative text for images
 </Accordion>
 
 ### Compatibility Requirements
 
 <CardGroup cols={2}>
   <Card title="Browser Support" icon="browser">
-    - Chrome (last 2 versions)
-    - Firefox (last 2 versions)
-    - Safari (last 2 versions)
-    - Edge (last 2 versions)
+    **Modern browsers:**
+    - Chrome (recent versions)
+    - Firefox (recent versions)
+    - Safari (recent versions)
+    - Edge (recent versions)
   </Card>
   
   <Card title="Device Support" icon="mobile">
-    - Desktop (1920x1080 and above)
-    - Tablet (768px - 1024px)
-    - Mobile (320px - 767px)
-    - Progressive Web App support
+    **Responsive design:**
+    - Desktop displays
+    - Tablet devices
+    - Mobile phones
+    - Consider PWA features
   </Card>
 </CardGroup>
 
 ## Data Requirements
 
-### Data Management
+### Data Management Best Practices
 
 <Info>
   Proper data management ensures system reliability and regulatory compliance.
 </Info>
 
-- **Data Integrity:** Validation at all input points
-- **Data Backup:** Daily automated backups with 30-day retention
-- **Data Recovery:** Recovery time objective (RTO) < 4 hours
-- **Data Migration:** Support for data import from legacy systems
-- **Data Archival:** Archive inactive data after 2 years
+- **Data Integrity:** Validate all inputs
+- **Data Backup:** Plan regular automated backups
+- **Data Recovery:** Define recovery procedures
+- **Data Migration:** Plan for data imports/exports
+- **Data Archival:** Consider long-term data storage
 
 ### Data Privacy
 
-- Personal data collection with explicit consent
-- Right to access user data
-- Right to delete user data (right to be forgotten)
-- Data portability in standard formats
-- Transparent privacy policy
-
-## Integration Requirements
-
-<AccordionGroup>
-  <Accordion title="External APIs">
-    The system shall integrate with external services:
-    
-    - Payment gateway integration
-    - Email service provider
-    - Cloud storage services
-    - Analytics platforms
-    - Social media APIs
-  </Accordion>
-  
-  <Accordion title="Third-Party Services">
-    Required service integrations:
-    
-    - Authentication providers (OAuth)
-    - CDN for static assets
-    - Monitoring and logging services
-    - Error tracking platforms
-    - Customer support systems
-  </Accordion>
-</AccordionGroup>
+- Collect personal data with explicit consent
+- Provide users access to their data
+- Implement data deletion capabilities
+- Enable data portability
+- Maintain transparent privacy policies
 
 ## Testing Requirements
 
 <CardGroup cols={3}>
   <Card title="Unit Testing" icon="vial">
-    - 80% code coverage minimum
-    - Automated test execution
-    - Test-driven development
+    - Test individual components
+    - Aim for good code coverage
+    - Automate test execution
+    - Use test-driven development
   </Card>
   
   <Card title="Integration Testing" icon="link">
-    - API endpoint testing
-    - Database integration tests
-    - Service integration validation
+    - Test component interactions
+    - Validate API integrations
+    - Test database operations
+    - Verify service connections
   </Card>
   
   <Card title="E2E Testing" icon="route">
-    - Critical user flows
-    - Cross-browser testing
-    - Mobile device testing
+    - Test critical user flows
+    - Perform cross-browser testing
+    - Test on multiple devices
+    - Validate complete workflows
   </Card>
 </CardGroup>
 
@@ -300,23 +274,26 @@ Non-functional requirements define system qualities and constraints.
 
 <Steps>
   <Step title="Environment Setup">
+    When development begins, establish:
     - Development environment
-    - Staging environment (production mirror)
+    - Staging environment
     - Production environment
-    - CI/CD pipeline configuration
+    - CI/CD pipeline
   </Step>
   
   <Step title="Deployment Process">
-    - Automated deployment scripts
-    - Zero-downtime deployment
+    Plan for:
+    - Automated deployments
+    - Zero-downtime deployment strategy
     - Rollback capabilities
-    - Health checks post-deployment
+    - Post-deployment validation
   </Step>
   
   <Step title="Monitoring">
+    Implement:
     - Application performance monitoring
     - Error tracking and alerting
-    - Log aggregation and analysis
+    - Log aggregation
     - Uptime monitoring
   </Step>
 </Steps>
@@ -327,32 +304,25 @@ Non-functional requirements define system qualities and constraints.
   Comprehensive documentation ensures project sustainability and knowledge transfer.
 </Note>
 
-- **API Documentation:** OpenAPI/Swagger specification
-- **User Documentation:** End-user guides and tutorials
-- **Developer Documentation:** Setup guides and architecture docs
-- **Deployment Documentation:** Infrastructure and deployment procedures
-- **Change Log:** Version history and release notes
+When development begins, create:
 
-## Requirements Traceability
+- **API Documentation:** Document all API endpoints
+- **User Documentation:** Provide end-user guides
+- **Developer Documentation:** Setup and architecture guides
+- **Deployment Documentation:** Infrastructure procedures
+- **Change Log:** Maintain version history
 
-<Warning>
-  All requirements must be traceable to project deliverables and test cases.
-</Warning>
-
-Each requirement will be:
-- Assigned a unique identifier
-- Linked to design documents
-- Mapped to test cases
-- Tracked through implementation
-- Verified in acceptance testing
-
-## Related Documentation
+## Next Steps
 
 <CardGroup cols={2}>
   <Card title="Project Overview" icon="diagram-project" href="/project/overview">
-    High-level project architecture and goals
+    Review high-level project information
   </Card>
   <Card title="Technical Specification" icon="file-lines" href="/project/specification">
-    Detailed technical specifications and design
+    See reference to detailed specification document
   </Card>
 </CardGroup>
+
+<Tip>
+  Refer to the complete project specification in `Documentos/Proyecto desarrollo web 2026-10.pdf` for actual project requirements and details.
+</Tip>

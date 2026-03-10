@@ -1,42 +1,63 @@
 ---
 title: 'Development Environment Setup'
-description: 'Set up your local development environment for ProyectoWeb'
+description: 'General guidance for setting up web development environments'
 icon: 'laptop-code'
 ---
 
-## Prerequisites
+<Warning>
+  **Project Status:** ProyectoWeb is currently in the planning stage. This guide provides general web development environment setup guidance for when development begins. No implementation code exists yet.
+</Warning>
 
-Before you begin developing ProyectoWeb, ensure you have the following tools installed on your system.
+## Current Repository Status
+
+<Note>
+  The source repository at `~/workspace/source/` currently contains only:
+  - README.md (basic readme file)
+  - Documentos/Proyecto desarrollo web 2026-10.pdf (project specification)
+  - Documentos/HOLA ESTA ES UNA PRUEBA.txt (empty file)
+  
+  There is no `package.json`, no source code, and no development environment to set up yet.
+</Note>
+
+## General Development Prerequisites
+
+When development begins, you'll typically need the following tools:
 
 <CardGroup cols={2}>
-  <Card title="Node.js" icon="node-js" color="#3B82F6">
-    Version 18.x or higher recommended
-  </Card>
-  <Card title="Git" icon="git" color="#3B82F6">
-    For version control and collaboration
+  <Card title="Version Control" icon="git" color="#3B82F6">
+    Git for version control and collaboration
   </Card>
   <Card title="Code Editor" icon="code" color="#3B82F6">
-    VS Code, WebStorm, or your preferred IDE
+    VS Code, WebStorm, Sublime Text, or your preferred IDE
+  </Card>
+  <Card title="Programming Language" icon="code" color="#3B82F6">
+    Based on project requirements (Node.js, Python, etc.)
   </Card>
   <Card title="Package Manager" icon="box" color="#3B82F6">
-    npm, yarn, or pnpm
+    npm, yarn, pnpm, or equivalent for your stack
   </Card>
 </CardGroup>
 
-## Initial Setup
+## Typical Setup Process
+
+When the project moves to the implementation phase, a typical setup process would include:
 
 <Steps>
   <Step title="Clone the Repository">
-    Clone the ProyectoWeb repository to your local machine:
+    Once the project repository is initialized:
     
     ```bash
     git clone <repository-url>
     cd ProyectoWeb
     ```
+    
+    <Tip>
+      Make sure you have proper access credentials and SSH keys configured.
+    </Tip>
   </Step>
 
   <Step title="Install Dependencies">
-    Install all required project dependencies:
+    After the project includes a dependency file:
     
     <CodeGroup>
       ```bash npm
@@ -51,48 +72,50 @@ Before you begin developing ProyectoWeb, ensure you have the following tools ins
       pnpm install
       ```
     </CodeGroup>
+    
+    <Note>
+      The actual commands will depend on the chosen technology stack and package manager.
+    </Note>
   </Step>
 
   <Step title="Environment Configuration">
-    Create a `.env.local` file in the root directory with your environment variables:
+    Configure environment variables as specified in project documentation:
     
     ```bash
     cp .env.example .env.local
     ```
     
     <Warning>
-      Never commit `.env.local` or any files containing sensitive credentials to version control.
+      Never commit `.env` files or files containing sensitive credentials to version control.
     </Warning>
     
-    Configure the following essential variables:
+    Typical environment variables might include:
     
-    ```bash .env.local
+    ```bash .env.example
     # Application Settings
     NODE_ENV=development
     PORT=3000
     
-    # Database Configuration
-    DATABASE_URL=postgresql://user:password@localhost:5432/proyectoweb
+    # Database (example)
+    DATABASE_URL=your_database_connection_string
     
-    # API Keys (if applicable)
+    # API Keys (example)
     API_KEY=your_api_key_here
-    
-    # Frontend URL
-    NEXT_PUBLIC_APP_URL=http://localhost:3000
     ```
   </Step>
 
-  <Step title="Database Setup">
-    If your project uses a database, set it up and run migrations:
+  <Step title="Database Setup (if applicable)">
+    If the project uses a database, you'll need to:
+    
+    - Install the database system
+    - Create the database
+    - Run migrations
+    - Optionally seed initial data
     
     ```bash
-    # Create database
+    # Example commands (actual commands depend on stack)
     npm run db:create
-    
-    # Run migrations
     npm run db:migrate
-    
-    # Seed initial data (optional)
     npm run db:seed
     ```
   </Step>
@@ -100,68 +123,65 @@ Before you begin developing ProyectoWeb, ensure you have the following tools ins
   <Step title="Start Development Server">
     Launch the development server:
     
-    <CodeGroup>
-      ```bash npm
-      npm run dev
-      ```
-
-      ```bash yarn
-      yarn dev
-      ```
-
-      ```bash pnpm
-      pnpm dev
-      ```
-    </CodeGroup>
+    ```bash
+    npm run dev
+    # or yarn dev, pnpm dev, etc.
+    ```
     
     <Tip>
-      The development server typically runs on `http://localhost:3000` with hot-reload enabled.
+      Development servers typically include hot-reload functionality for rapid development.
     </Tip>
   </Step>
 </Steps>
 
-## Development Tools
+## Common Development Tools
 
-### Recommended VS Code Extensions
+### Code Editor Extensions
 
-Enhance your development experience with these extensions:
+Enhance your development experience with useful extensions:
 
 <AccordionGroup>
   <Accordion title="Essential Extensions">
-    - **ESLint** - JavaScript/TypeScript linting
-    - **Prettier** - Code formatting
-    - **GitLens** - Enhanced Git integration
-    - **Auto Rename Tag** - Automatically rename paired HTML/JSX tags
-    - **Path Intellisense** - Autocomplete file paths
+    **General productivity:**
+    - **Linter** - Code quality and style checking
+    - **Formatter** - Consistent code formatting (Prettier, etc.)
+    - **Git Integration** - Enhanced Git functionality
+    - **Path Autocomplete** - File path assistance
+    - **Bracket Colorizer** - Matching brackets visualization
   </Accordion>
 
-  <Accordion title="Framework-Specific Extensions">
-    - **ES7+ React/Redux Snippets** - React code snippets
-    - **Tailwind CSS IntelliSense** - Tailwind CSS autocomplete
-    - **Prisma** - Prisma schema support (if using Prisma)
-    - **MongoDB for VS Code** - MongoDB integration (if applicable)
+  <Accordion title="Language-Specific Extensions">
+    **Depending on your stack:**
+    - JavaScript/TypeScript language support
+    - Python extensions (if using Python)
+    - HTML/CSS/JavaScript snippets
+    - Framework-specific tools (React, Vue, Angular)
+    - Database integration tools
   </Accordion>
 
   <Accordion title="Productivity Extensions">
-    - **Better Comments** - Styled code comments
-    - **Import Cost** - Display import/require package sizes
-    - **TODO Highlight** - Highlight TODO, FIXME comments
-    - **Error Lens** - Inline error messages
+    **Optional but helpful:**
+    - Better Comments - Styled code comments
+    - TODO Highlight - Track TODO and FIXME comments
+    - Error Lens - Inline error messages
+    - Import Cost - Display package sizes
+    - Live Share - Collaborative coding
   </Accordion>
 </AccordionGroup>
 
 ### Browser DevTools
 
-Install these browser extensions for enhanced debugging:
+Install browser extensions for development:
 
-- **React Developer Tools** - Inspect React component hierarchy
-- **Redux DevTools** - Debug Redux state changes (if using Redux)
-- **Vue.js devtools** - For Vue.js projects
-- **Lighthouse** - Performance auditing
+- **React Developer Tools** - For React applications
+- **Vue.js devtools** - For Vue.js applications
+- **Redux DevTools** - For Redux state management
+- **Lighthouse** - Performance and accessibility auditing
+- **JSON Formatter** - Better JSON viewing
 
 ## Code Editor Configuration
 
-Create a `.vscode/settings.json` file for consistent team settings:
+When the project begins, you might create workspace settings:
 
 ```json .vscode/settings.json
 {
@@ -170,84 +190,205 @@ Create a `.vscode/settings.json` file for consistent team settings:
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "tailwindCSS.experimental.classRegex": [
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ]
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true
+  }
 }
 ```
 
-## Troubleshooting
+<Note>
+  The actual configuration will depend on the chosen technology stack and team preferences.
+</Note>
+
+## Platform-Specific Setup
+
+### Windows
+
+<Tabs>
+  <Tab title="WSL (Recommended)">
+    For Windows development, Windows Subsystem for Linux (WSL) is recommended:
+    
+    ```powershell
+    # Install WSL
+    wsl --install
+    
+    # Set WSL 2 as default
+    wsl --set-default-version 2
+    
+    # Install a Linux distribution
+    wsl --install -d Ubuntu
+    ```
+    
+    Then follow Linux setup instructions within WSL.
+  </Tab>
+  
+  <Tab title="Native Windows">
+    For native Windows development:
+    
+    - Install Git for Windows
+    - Use PowerShell or Command Prompt
+    - Install Node.js (or required runtime) from official website
+    - Consider using Windows Terminal for better experience
+  </Tab>
+</Tabs>
+
+### macOS
+
+```bash
+# Install Homebrew (package manager)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Git (usually pre-installed)
+brew install git
+
+# Install Node.js (example)
+brew install node
+
+# Or use nvm for version management
+brew install nvm
+```
+
+### Linux
+
+```bash
+# Update package manager
+sudo apt update
+
+# Install Git
+sudo apt install git
+
+# Install Node.js (example)
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install nodejs
+
+# Or use nvm for version management
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+```
+
+## Troubleshooting Common Issues
 
 <AccordionGroup>
   <Accordion title="Port Already in Use">
-    If port 3000 is already in use:
+    If the default port is occupied:
     
     ```bash
-    # Find and kill the process
+    # Find process using the port (example: port 3000)
     lsof -ti:3000 | xargs kill -9
     
-    # Or use a different port
+    # Or specify a different port
     PORT=3001 npm run dev
     ```
   </Accordion>
 
-  <Accordion title="Node Modules Issues">
-    If you encounter dependency issues:
+  <Accordion title="Dependency Installation Issues">
+    If you encounter package installation problems:
     
     ```bash
+    # Clear package manager cache
+    npm cache clean --force
+    # or
+    yarn cache clean
+    
     # Remove node_modules and lock file
     rm -rf node_modules package-lock.json
-    
-    # Clear npm cache
-    npm cache clean --force
     
     # Reinstall
     npm install
     ```
   </Accordion>
 
-  <Accordion title="Environment Variables Not Loading">
-    Ensure:
-    - File is named `.env.local` (not `.env.local.txt`)
-    - File is in the project root directory
-    - Restart the development server after changes
-    - Variables are prefixed with `NEXT_PUBLIC_` for client-side access (if using Next.js)
-  </Accordion>
-
-  <Accordion title="Database Connection Errors">
-    Verify:
-    - Database service is running
-    - Connection string format is correct
-    - Database exists and is accessible
-    - User has proper permissions
+  <Accordion title="Permission Errors">
+    On Unix-like systems, avoid using `sudo` with npm:
     
     ```bash
-    # Test database connection
-    npm run db:test
+    # Fix npm permissions (if needed)
+    mkdir ~/.npm-global
+    npm config set prefix '~/.npm-global'
+    export PATH=~/.npm-global/bin:$PATH
     ```
   </Accordion>
+
+  <Accordion title="Environment Variables Not Loading">
+    Ensure:
+    - Environment file has correct name (`.env`, `.env.local`, etc.)
+    - File is in the correct directory (usually project root)
+    - Development server is restarted after changes
+    - Variables follow framework-specific naming conventions
+  </Accordion>
 </AccordionGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Version Control" icon="git-alt">
+    - Commit frequently with clear messages
+    - Use branches for features
+    - Keep main branch stable
+    - Review code before merging
+  </Card>
+  
+  <Card title="Code Organization" icon="folder-tree">
+    - Follow project structure conventions
+    - Keep files focused and small
+    - Use meaningful names
+    - Document complex logic
+  </Card>
+  
+  <Card title="Security" icon="lock">
+    - Never commit secrets
+    - Use environment variables
+    - Keep dependencies updated
+    - Review security advisories
+  </Card>
+  
+  <Card title="Performance" icon="gauge">
+    - Optimize during development
+    - Test with realistic data
+    - Monitor build times
+    - Profile when needed
+  </Card>
+</CardGroup>
+
+## When Development Begins
+
+<Steps>
+  <Step title="Review Project Specification">
+    Start by thoroughly reviewing the project specification in `Documentos/Proyecto desarrollo web 2026-10.pdf`
+  </Step>
+  
+  <Step title="Set Up Repository">
+    Initialize the repository with:
+    - Project structure
+    - Configuration files
+    - Development dependencies
+    - Documentation
+  </Step>
+  
+  <Step title="Configure Development Environment">
+    Set up:
+    - Linting and formatting tools
+    - Testing framework
+    - Build tools
+    - CI/CD pipeline
+  </Step>
+  
+  <Step title="Begin Implementation">
+    Follow the development guidelines and start building according to the specification
+  </Step>
+</Steps>
 
 ## Next Steps
 
 <CardGroup cols={2}>
   <Card title="Development Guidelines" icon="book" href="/development/guidelines">
-    Learn about our coding standards and best practices
+    Learn about coding standards and best practices
   </Card>
-  <Card title="Testing" icon="flask" href="/development/testing">
-    Understand our testing strategies
+  <Card title="Project Specification" icon="file-lines" href="/project/specification">
+    Review the project specification document reference
   </Card>
 </CardGroup>
 
 <Tip>
-  Join our developer community chat for real-time support and collaboration!
+  When the project moves to implementation, this guide will be updated with specific setup instructions based on the chosen technology stack.
 </Tip>
