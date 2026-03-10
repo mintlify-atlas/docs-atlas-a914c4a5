@@ -1,0 +1,253 @@
+---
+title: 'Development Environment Setup'
+description: 'Set up your local development environment for ProyectoWeb'
+icon: 'laptop-code'
+---
+
+## Prerequisites
+
+Before you begin developing ProyectoWeb, ensure you have the following tools installed on your system.
+
+<CardGroup cols={2}>
+  <Card title="Node.js" icon="node-js" color="#3B82F6">
+    Version 18.x or higher recommended
+  </Card>
+  <Card title="Git" icon="git" color="#3B82F6">
+    For version control and collaboration
+  </Card>
+  <Card title="Code Editor" icon="code" color="#3B82F6">
+    VS Code, WebStorm, or your preferred IDE
+  </Card>
+  <Card title="Package Manager" icon="box" color="#3B82F6">
+    npm, yarn, or pnpm
+  </Card>
+</CardGroup>
+
+## Initial Setup
+
+<Steps>
+  <Step title="Clone the Repository">
+    Clone the ProyectoWeb repository to your local machine:
+    
+    ```bash
+    git clone <repository-url>
+    cd ProyectoWeb
+    ```
+  </Step>
+
+  <Step title="Install Dependencies">
+    Install all required project dependencies:
+    
+    <CodeGroup>
+      ```bash npm
+      npm install
+      ```
+
+      ```bash yarn
+      yarn install
+      ```
+
+      ```bash pnpm
+      pnpm install
+      ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Environment Configuration">
+    Create a `.env.local` file in the root directory with your environment variables:
+    
+    ```bash
+    cp .env.example .env.local
+    ```
+    
+    <Warning>
+      Never commit `.env.local` or any files containing sensitive credentials to version control.
+    </Warning>
+    
+    Configure the following essential variables:
+    
+    ```bash .env.local
+    # Application Settings
+    NODE_ENV=development
+    PORT=3000
+    
+    # Database Configuration
+    DATABASE_URL=postgresql://user:password@localhost:5432/proyectoweb
+    
+    # API Keys (if applicable)
+    API_KEY=your_api_key_here
+    
+    # Frontend URL
+    NEXT_PUBLIC_APP_URL=http://localhost:3000
+    ```
+  </Step>
+
+  <Step title="Database Setup">
+    If your project uses a database, set it up and run migrations:
+    
+    ```bash
+    # Create database
+    npm run db:create
+    
+    # Run migrations
+    npm run db:migrate
+    
+    # Seed initial data (optional)
+    npm run db:seed
+    ```
+  </Step>
+
+  <Step title="Start Development Server">
+    Launch the development server:
+    
+    <CodeGroup>
+      ```bash npm
+      npm run dev
+      ```
+
+      ```bash yarn
+      yarn dev
+      ```
+
+      ```bash pnpm
+      pnpm dev
+      ```
+    </CodeGroup>
+    
+    <Tip>
+      The development server typically runs on `http://localhost:3000` with hot-reload enabled.
+    </Tip>
+  </Step>
+</Steps>
+
+## Development Tools
+
+### Recommended VS Code Extensions
+
+Enhance your development experience with these extensions:
+
+<AccordionGroup>
+  <Accordion title="Essential Extensions">
+    - **ESLint** - JavaScript/TypeScript linting
+    - **Prettier** - Code formatting
+    - **GitLens** - Enhanced Git integration
+    - **Auto Rename Tag** - Automatically rename paired HTML/JSX tags
+    - **Path Intellisense** - Autocomplete file paths
+  </Accordion>
+
+  <Accordion title="Framework-Specific Extensions">
+    - **ES7+ React/Redux Snippets** - React code snippets
+    - **Tailwind CSS IntelliSense** - Tailwind CSS autocomplete
+    - **Prisma** - Prisma schema support (if using Prisma)
+    - **MongoDB for VS Code** - MongoDB integration (if applicable)
+  </Accordion>
+
+  <Accordion title="Productivity Extensions">
+    - **Better Comments** - Styled code comments
+    - **Import Cost** - Display import/require package sizes
+    - **TODO Highlight** - Highlight TODO, FIXME comments
+    - **Error Lens** - Inline error messages
+  </Accordion>
+</AccordionGroup>
+
+### Browser DevTools
+
+Install these browser extensions for enhanced debugging:
+
+- **React Developer Tools** - Inspect React component hierarchy
+- **Redux DevTools** - Debug Redux state changes (if using Redux)
+- **Vue.js devtools** - For Vue.js projects
+- **Lighthouse** - Performance auditing
+
+## Code Editor Configuration
+
+Create a `.vscode/settings.json` file for consistent team settings:
+
+```json .vscode/settings.json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
+}
+```
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Port Already in Use">
+    If port 3000 is already in use:
+    
+    ```bash
+    # Find and kill the process
+    lsof -ti:3000 | xargs kill -9
+    
+    # Or use a different port
+    PORT=3001 npm run dev
+    ```
+  </Accordion>
+
+  <Accordion title="Node Modules Issues">
+    If you encounter dependency issues:
+    
+    ```bash
+    # Remove node_modules and lock file
+    rm -rf node_modules package-lock.json
+    
+    # Clear npm cache
+    npm cache clean --force
+    
+    # Reinstall
+    npm install
+    ```
+  </Accordion>
+
+  <Accordion title="Environment Variables Not Loading">
+    Ensure:
+    - File is named `.env.local` (not `.env.local.txt`)
+    - File is in the project root directory
+    - Restart the development server after changes
+    - Variables are prefixed with `NEXT_PUBLIC_` for client-side access (if using Next.js)
+  </Accordion>
+
+  <Accordion title="Database Connection Errors">
+    Verify:
+    - Database service is running
+    - Connection string format is correct
+    - Database exists and is accessible
+    - User has proper permissions
+    
+    ```bash
+    # Test database connection
+    npm run db:test
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Development Guidelines" icon="book" href="/development/guidelines">
+    Learn about our coding standards and best practices
+  </Card>
+  <Card title="Testing" icon="flask" href="/development/testing">
+    Understand our testing strategies
+  </Card>
+</CardGroup>
+
+<Tip>
+  Join our developer community chat for real-time support and collaboration!
+</Tip>

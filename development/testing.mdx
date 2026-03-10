@@ -1,0 +1,708 @@
+---
+title: 'Testing Strategies'
+description: 'Testing methodologies and best practices for ProyectoWeb'
+icon: 'flask'
+---
+
+## Testing Philosophy
+
+A comprehensive testing strategy ensures code quality, prevents regressions, and builds confidence in deployments.
+
+<CardGroup cols={3}>
+  <Card title="Unit Tests" icon="cube" color="#3B82F6">
+    Test individual functions and components
+  </Card>
+  <Card title="Integration Tests" icon="puzzle-piece" color="#3B82F6">
+    Test component interactions
+  </Card>
+  <Card title="E2E Tests" icon="browser" color="#3B82F6">
+    Test complete user workflows
+  </Card>
+</CardGroup>
+
+## Testing Pyramid
+
+```
+       /\      E2E Tests (Few)
+      /  \     - Cypress, Playwright
+     /    \    - User workflows
+    /------\   
+   / Integr \  Integration Tests (Some)
+  /  ation  \ - API endpoints
+ /   Tests   \ - Component interactions
+/------------\
+/    Unit     \ Unit Tests (Many)
+/    Tests     \ - Functions, utilities
+/_______________\ - Individual components
+```
+
+<Tip>
+  Focus on having many unit tests, some integration tests, and a few critical end-to-end tests.
+</Tip>
+
+## Unit Testing
+
+### Setup
+
+<Tabs>
+  <Tab title="Jest Configuration">
+    Install testing dependencies:
+    
+    ```bash
+    npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event
+    ```
+    
+    Configure Jest in `jest.config.js`:
+    
+    ```javascript jest.config.js
+    module.exports = {
+      testEnvironment: 'jsdom',
+      setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+      moduleNameMapper: {
+        '^@/(.*)$': '<rootDir>/src/$1',
+        '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+      },
+      collectCoverageFrom: [
+        'src/**/*.{js,jsx,ts,tsx}',
+        '!src/**/*.d.ts',
+        '!src/**/*.stories.{js,jsx,ts,tsx}',
+      ],
+      coverageThresholds: {
+        global: {
+          branches: 70,
+          functions: 70,
+          lines: 70,
+          statements: 70,
+        },
+      },
+    };
+    ```
+  </Tab>
+
+  <Tab title="Vitest Configuration">
+    Install Vitest:
+    
+    ```bash
+    npm install --save-dev vitest @vitest/ui
+    ```
+    
+    Configure in `vitest.config.js`:
+    
+    ```javascript vitest.config.js
+    import { defineConfig } from 'vitest/config';
+    import react from '@vitejs/plugin-react';
+    
+    export default defineConfig({
+      plugins: [react()],
+      test: {
+        environment: 'jsdom',
+        globals: true,
+        setupFiles: './src/test/setup.ts',
+        coverage: {
+          provider: 'v8',
+          reporter: ['text', 'json', 'html'],
+        },
+      },
+    });
+    ```
+  </Tab>
+
+  <Tab title="Package Scripts">
+    Add test scripts to `package.json`:
+    
+    ```json package.json
+    {
+      "scripts": {
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
+        "test:ui": "vitest --ui"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Writing Unit Tests
+
+<Steps>
+  <Step title="Test Utility Functions">
+    ```javascript utils/__tests__/format.test.js
+    import { formatDate, formatCurrency } from '../format';
+    
+    describe('formatDate', () => {
+      it('formats date to YYYY-MM-DD', () => {
+        const date = new Date('2026-03-10');
+        expect(formatDate(date)).toBe('2026-03-10');
+      });
+      
+      it('handles invalid dates', () => {
+        expect(formatDate(null)).toBe('');
+        expect(formatDate(undefined)).toBe('');
+      });
+    });
+    
+    describe('formatCurrency', () => {
+      it('formats USD currency', () => {
+        expect(formatCurrency(1234.56, 'USD')).toBe('$1,234.56');
+      });
+      
+      it('handles zero values', () => {
+        expect(formatCurrency(0, 'USD')).toBe('$0.00');
+      });
+    });
+    ```
+  </Step>
+
+  <Step title="Test React Components">
+    ```javascript components/__tests__/UserCard.test.jsx
+    import { render, screen, fireEvent } from '@testing-library/react';
+    import UserCard from '../UserCard';
+    
+    const mockUser = {
+      id: '1',
+      name: 'John Doe',
+      email: 'john@example.com',
+      role: 'admin',
+    };
+    
+    describe('UserCard', () => {
+      it('renders user information', () => {
+        render(<UserCard user={mockUser} />);
+        
+        expect(screen.getByText('John Doe')).toBeInTheDocument();
+        expect(screen.getByText('john@example.com')).toBeInTheDocument();
+      });
+      
+      it('calls onEdit when edit button is clicked', () => {
+        const handleEdit = jest.fn();
+        render(<UserCard user={mockUser} onEdit={handleEdit} />);
+        
+        const editButton = screen.getByRole('button', { name: /edit/i });
+        fireEvent.click(editButton);
+        
+        expect(handleEdit).toHaveBeenCalledWith('1');
+      });
+      
+      it('shows admin badge for admin users', () => {
+        render(<UserCard user={mockUser} />);
+        expect(screen.getByText('Admin')).toBeInTheDocument();
+      });
+    });
+    ```
+  </Step>
+
+  <Step title="Test Custom Hooks">
+    ```javascript hooks/__tests__/useUser.test.js
+    import { renderHook, waitFor } from '@testing-library/react';
+    import { useUser } from '../useUser';
+    import * as api from '@/services/api';
+    
+    jest.mock('@/services/api');
+    
+    describe('useUser', () => {
+      it('fetches user data successfully', async () => {
+        const mockUser = { id: '1', name: 'John' };
+        api.getUser.mockResolvedValue(mockUser);
+        
+        const { result } = renderHook(() => useUser('1'));
+        
+        expect(result.current.loading).toBe(true);
+        
+        await waitFor(() => {
+          expect(result.current.loading).toBe(false);
+        });
+        
+        expect(result.current.user).toEqual(mockUser);
+        expect(result.current.error).toBeNull();
+      });
+      
+      it('handles errors', async () => {
+        api.getUser.mockRejectedValue(new Error('Network error'));
+        
+        const { result } = renderHook(() => useUser('1'));
+        
+        await waitFor(() => {
+          expect(result.current.loading).toBe(false);
+        });
+        
+        expect(result.current.error).toBeTruthy();
+        expect(result.current.user).toBeNull();
+      });
+    });
+    ```
+  </Step>
+</Steps>
+
+## Integration Testing
+
+### API Integration Tests
+
+```javascript tests/integration/api.test.js
+import request from 'supertest';
+import app from '@/app';
+import { setupTestDB, cleanupTestDB } from '@/test/helpers';
+
+describe('User API', () => {
+  beforeAll(async () => {
+    await setupTestDB();
+  });
+  
+  afterAll(async () => {
+    await cleanupTestDB();
+  });
+  
+  describe('POST /api/users', () => {
+    it('creates a new user', async () => {
+      const userData = {
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'securepass123',
+      };
+      
+      const response = await request(app)
+        .post('/api/users')
+        .send(userData)
+        .expect(201);
+      
+      expect(response.body).toMatchObject({
+        name: userData.name,
+        email: userData.email,
+      });
+      expect(response.body.password).toBeUndefined();
+    });
+    
+    it('validates required fields', async () => {
+      const response = await request(app)
+        .post('/api/users')
+        .send({ name: 'Test' })
+        .expect(400);
+      
+      expect(response.body.errors).toContain('email');
+    });
+  });
+  
+  describe('GET /api/users/:id', () => {
+    it('returns user by id', async () => {
+      const response = await request(app)
+        .get('/api/users/1')
+        .expect(200);
+      
+      expect(response.body).toHaveProperty('id');
+      expect(response.body).toHaveProperty('name');
+    });
+    
+    it('returns 404 for non-existent user', async () => {
+      await request(app)
+        .get('/api/users/999999')
+        .expect(404);
+    });
+  });
+});
+```
+
+### Component Integration Tests
+
+```javascript components/__tests__/UserDashboard.integration.test.jsx
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import UserDashboard from '../UserDashboard';
+import { server } from '@/test/mocks/server';
+import { rest } from 'msw';
+
+const queryClient = new QueryClient();
+
+const wrapper = ({ children }) => (
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
+
+describe('UserDashboard Integration', () => {
+  it('loads and displays user data', async () => {
+    render(<UserDashboard userId="1" />, { wrapper });
+    
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    
+    await waitFor(() => {
+      expect(screen.getByText('John Doe')).toBeInTheDocument();
+    });
+  });
+  
+  it('handles update user flow', async () => {
+    const user = userEvent.setup();
+    render(<UserDashboard userId="1" />, { wrapper });
+    
+    await waitFor(() => {
+      expect(screen.getByText('John Doe')).toBeInTheDocument();
+    });
+    
+    const editButton = screen.getByRole('button', { name: /edit/i });
+    await user.click(editButton);
+    
+    const nameInput = screen.getByLabelText(/name/i);
+    await user.clear(nameInput);
+    await user.type(nameInput, 'Jane Doe');
+    
+    const saveButton = screen.getByRole('button', { name: /save/i });
+    await user.click(saveButton);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Jane Doe')).toBeInTheDocument();
+    });
+  });
+});
+```
+
+## End-to-End Testing
+
+### Cypress Setup
+
+<Steps>
+  <Step title="Install Cypress">
+    ```bash
+    npm install --save-dev cypress @testing-library/cypress
+    ```
+  </Step>
+
+  <Step title="Configure Cypress">
+    ```javascript cypress.config.js
+    const { defineConfig } = require('cypress');
+    
+    module.exports = defineConfig({
+      e2e: {
+        baseUrl: 'http://localhost:3000',
+        viewportWidth: 1280,
+        viewportHeight: 720,
+        video: false,
+        screenshotOnRunFailure: true,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Write E2E Tests">
+    ```javascript cypress/e2e/auth.cy.js
+    describe('Authentication Flow', () => {
+      beforeEach(() => {
+        cy.visit('/login');
+      });
+      
+      it('allows user to login with valid credentials', () => {
+        cy.get('[data-testid="email-input"]').type('user@example.com');
+        cy.get('[data-testid="password-input"]').type('password123');
+        cy.get('[data-testid="login-button"]').click();
+        
+        cy.url().should('include', '/dashboard');
+        cy.get('[data-testid="user-menu"]').should('contain', 'user@example.com');
+      });
+      
+      it('shows error for invalid credentials', () => {
+        cy.get('[data-testid="email-input"]').type('wrong@example.com');
+        cy.get('[data-testid="password-input"]').type('wrongpass');
+        cy.get('[data-testid="login-button"]').click();
+        
+        cy.get('[data-testid="error-message"]')
+          .should('be.visible')
+          .and('contain', 'Invalid credentials');
+      });
+      
+      it('navigates to signup page', () => {
+        cy.get('[data-testid="signup-link"]').click();
+        cy.url().should('include', '/signup');
+      });
+    });
+    ```
+  </Step>
+</Steps>
+
+### Playwright Alternative
+
+<Tabs>
+  <Tab title="Installation">
+    ```bash
+    npm install --save-dev @playwright/test
+    npx playwright install
+    ```
+  </Tab>
+
+  <Tab title="Configuration">
+    ```javascript playwright.config.js
+    import { defineConfig, devices } from '@playwright/test';
+    
+    export default defineConfig({
+      testDir: './e2e',
+      fullyParallel: true,
+      forbidOnly: !!process.env.CI,
+      retries: process.env.CI ? 2 : 0,
+      workers: process.env.CI ? 1 : undefined,
+      reporter: 'html',
+      use: {
+        baseURL: 'http://localhost:3000',
+        trace: 'on-first-retry',
+      },
+      projects: [
+        {
+          name: 'chromium',
+          use: { ...devices['Desktop Chrome'] },
+        },
+        {
+          name: 'firefox',
+          use: { ...devices['Desktop Firefox'] },
+        },
+        {
+          name: 'webkit',
+          use: { ...devices['Desktop Safari'] },
+        },
+      ],
+    });
+    ```
+  </Tab>
+
+  <Tab title="Test Example">
+    ```javascript e2e/user-flow.spec.js
+    import { test, expect } from '@playwright/test';
+    
+    test.describe('User Management', () => {
+      test('complete user creation flow', async ({ page }) => {
+        await page.goto('/users');
+        
+        await page.click('button:has-text("Add User")');
+        await page.fill('[name="name"]', 'New User');
+        await page.fill('[name="email"]', 'newuser@example.com');
+        await page.selectOption('[name="role"]', 'user');
+        
+        await page.click('button:has-text("Save")');
+        
+        await expect(page.locator('text=User created successfully')).toBeVisible();
+        await expect(page.locator('text=New User')).toBeVisible();
+      });
+    });
+    ```
+  </Tab>
+</Tabs>
+
+## Test Best Practices
+
+<AccordionGroup>
+  <Accordion title="AAA Pattern">
+    Structure tests with Arrange, Act, Assert:
+    
+    ```javascript
+    test('calculates total price with tax', () => {
+      // Arrange
+      const items = [{ price: 10 }, { price: 20 }];
+      const taxRate = 0.1;
+      
+      // Act
+      const total = calculateTotal(items, taxRate);
+      
+      // Assert
+      expect(total).toBe(33);
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Test Isolation">
+    Each test should be independent:
+    
+    ```javascript
+    describe('User Service', () => {
+      beforeEach(() => {
+        // Fresh state for each test
+        jest.clearAllMocks();
+        resetDatabase();
+      });
+      
+      test('creates user', () => { /* ... */ });
+      test('updates user', () => { /* ... */ });
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Descriptive Names">
+    ```javascript
+    // Good
+    test('returns 400 when email is missing', () => { });
+    test('allows admin to delete users', () => { });
+    
+    // Bad
+    test('test1', () => { });
+    test('it works', () => { });
+    ```
+  </Accordion>
+
+  <Accordion title="Mock External Dependencies">
+    ```javascript
+    import { sendEmail } from './email';
+    
+    jest.mock('./email');
+    
+    test('sends welcome email on signup', async () => {
+      await signupUser({ email: 'test@example.com' });
+      
+      expect(sendEmail).toHaveBeenCalledWith(
+        'test@example.com',
+        'Welcome!'
+      );
+    });
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Coverage Goals
+
+<Warning>
+  Code coverage is a metric, not a goal. Aim for meaningful tests, not just high coverage numbers.
+</Warning>
+
+<CardGroup cols={2}>
+  <Card title="Statements" icon="code">
+    Target: 80%+
+  </Card>
+  <Card title="Branches" icon="code-branch">
+    Target: 75%+
+  </Card>
+  <Card title="Functions" icon="function">
+    Target: 80%+
+  </Card>
+  <Card title="Lines" icon="align-left">
+    Target: 80%+
+  </Card>
+</CardGroup>
+
+### Viewing Coverage
+
+```bash
+# Generate coverage report
+npm run test:coverage
+
+# View HTML report
+open coverage/index.html
+```
+
+## Continuous Integration
+
+### GitHub Actions Example
+
+```yaml .github/workflows/test.yml
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linter
+        run: npm run lint
+      
+      - name: Run unit tests
+        run: npm test -- --coverage
+      
+      - name: Run E2E tests
+        run: npm run test:e2e
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/coverage-final.json
+```
+
+## Test Data Management
+
+### Factories and Fixtures
+
+```javascript test/factories/user.js
+import { faker } from '@faker-js/faker';
+
+export const createUser = (overrides = {}) => ({
+  id: faker.string.uuid(),
+  name: faker.person.fullName(),
+  email: faker.internet.email(),
+  role: 'user',
+  createdAt: faker.date.past(),
+  ...overrides,
+});
+
+export const createAdmin = (overrides = {}) => 
+  createUser({ role: 'admin', ...overrides });
+
+// Usage
+const testUser = createUser({ email: 'specific@example.com' });
+```
+
+<Tip>
+  Use factories to create consistent test data while allowing customization for specific test cases.
+</Tip>
+
+## Debugging Tests
+
+<Tabs>
+  <Tab title="Jest Debugging">
+    ```json package.json
+    {
+      "scripts": {
+        "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
+      }
+    }
+    ```
+    
+    Open `chrome://inspect` in Chrome and click "inspect".
+  </Tab>
+
+  <Tab title="VS Code Config">
+    ```json .vscode/launch.json
+    {
+      "version": "0.2.0",
+      "configurations": [
+        {
+          "type": "node",
+          "request": "launch",
+          "name": "Jest Debug",
+          "program": "${workspaceFolder}/node_modules/.bin/jest",
+          "args": ["--runInBand"],
+          "console": "integratedTerminal",
+          "internalConsoleOptions": "neverOpen"
+        }
+      ]
+    }
+    ```
+  </Tab>
+
+  <Tab title="Screen Debugging">
+    ```javascript
+    import { screen } from '@testing-library/react';
+    
+    // Print current DOM
+    screen.debug();
+    
+    // Print specific element
+    screen.debug(screen.getByTestId('user-card'));
+    ```
+  </Tab>
+</Tabs>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Setup Guide" icon="laptop-code" href="/development/setup">
+    Set up your development environment
+  </Card>
+  <Card title="Guidelines" icon="book" href="/development/guidelines">
+    Review development best practices
+  </Card>
+</CardGroup>

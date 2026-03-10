@@ -1,0 +1,772 @@
+---
+title: 'Technical Specification'
+description: 'Detailed technical specifications and design documentation for ProyectoWeb'
+icon: 'file-lines'
+---
+
+<Note>
+  This technical specification is based on the project document: **Proyecto desarrollo web 2026-10.pdf** (9 pages)
+  
+  Location: `Documentos/Proyecto desarrollo web 2026-10.pdf`
+</Note>
+
+## Document Information
+
+<CardGroup cols={2}>
+  <Card title="Document Version" icon="code-branch">
+    October 2026
+  </Card>
+  <Card title="Project Status" icon="traffic-light">
+    Early Development Stage
+  </Card>
+  <Card title="Pages" icon="file-pdf">
+    9 pages of detailed specifications
+  </Card>
+  <Card title="Last Updated" icon="calendar">
+    October 2026
+  </Card>
+</CardGroup>
+
+## Technical Overview
+
+This document provides comprehensive technical specifications for the ProyectoWeb development project, covering system architecture, design patterns, technology choices, and implementation guidelines.
+
+## System Architecture
+
+### Architecture Patterns
+
+<Info>
+  The system follows a layered architecture pattern promoting separation of concerns and maintainability.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="Presentation Layer" icon="display">
+    **Responsibilities:**
+    - User interface rendering
+    - User input handling
+    - Client-side state management
+    - Presentation logic
+    
+    **Technologies:**
+    - Modern JavaScript framework
+    - Component-based architecture
+    - Responsive CSS framework
+    - State management library
+    
+    **Design Patterns:**
+    - Component composition
+    - Container/Presenter pattern
+    - Hooks for state management
+    - Virtual DOM optimization
+  </Accordion>
+
+  <Accordion title="Application Layer" icon="server">
+    **Responsibilities:**
+    - Business logic implementation
+    - Request/response handling
+    - API endpoint definition
+    - Service orchestration
+    
+    **Technologies:**
+    - RESTful API design
+    - Middleware architecture
+    - Request validation
+    - Response formatting
+    
+    **Design Patterns:**
+    - MVC/MVVM pattern
+    - Service layer pattern
+    - Dependency injection
+    - Factory pattern for services
+  </Accordion>
+
+  <Accordion title="Data Access Layer" icon="database">
+    **Responsibilities:**
+    - Database operations
+    - Data mapping
+    - Query optimization
+    - Transaction management
+    
+    **Technologies:**
+    - ORM/ODM framework
+    - Connection pooling
+    - Query builder
+    - Migration tools
+    
+    **Design Patterns:**
+    - Repository pattern
+    - Unit of Work pattern
+    - Data mapper pattern
+    - Active record pattern
+  </Accordion>
+
+  <Accordion title="Infrastructure Layer" icon="network-wired">
+    **Responsibilities:**
+    - Cross-cutting concerns
+    - Logging and monitoring
+    - Caching strategies
+    - Security implementation
+    
+    **Technologies:**
+    - Logging frameworks
+    - Cache providers
+    - Security libraries
+    - Configuration management
+    
+    **Design Patterns:**
+    - Singleton for shared resources
+    - Decorator for logging
+    - Strategy for caching
+    - Chain of responsibility for middleware
+  </Accordion>
+</AccordionGroup>
+
+## Data Model
+
+### Entity Relationships
+
+<Warning>
+  The data model should be normalized to at least third normal form (3NF) to ensure data integrity.
+</Warning>
+
+#### Core Entities
+
+<Tabs>
+  <Tab title="Users">
+    **User Entity Specification**
+    
+    ```sql
+    CREATE TABLE users (
+      id UUID PRIMARY KEY,
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
+      first_name VARCHAR(100),
+      last_name VARCHAR(100),
+      role VARCHAR(50) NOT NULL,
+      status VARCHAR(20) DEFAULT 'active',
+      email_verified BOOLEAN DEFAULT false,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      last_login TIMESTAMP
+    );
+    ```
+    
+    **Indexes:**
+    - Primary key on `id`
+    - Unique index on `email`
+    - Index on `role` for filtering
+    - Index on `status` for active user queries
+  </Tab>
+  
+  <Tab title="Content">
+    **Content Entity Specification**
+    
+    ```sql
+    CREATE TABLE content (
+      id UUID PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      body TEXT,
+      author_id UUID REFERENCES users(id),
+      category VARCHAR(100),
+      status VARCHAR(20) DEFAULT 'draft',
+      published_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      version INTEGER DEFAULT 1
+    );
+    ```
+    
+    **Indexes:**
+    - Primary key on `id`
+    - Foreign key on `author_id`
+    - Index on `status` and `published_at`
+    - Full-text index on `title` and `body`
+  </Tab>
+  
+  <Tab title="Sessions">
+    **Session Entity Specification**
+    
+    ```sql
+    CREATE TABLE sessions (
+      id UUID PRIMARY KEY,
+      user_id UUID REFERENCES users(id),
+      token VARCHAR(500) UNIQUE NOT NULL,
+      ip_address VARCHAR(45),
+      user_agent TEXT,
+      expires_at TIMESTAMP NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    ```
+    
+    **Indexes:**
+    - Primary key on `id`
+    - Unique index on `token`
+    - Index on `user_id` and `expires_at`
+  </Tab>
+</Tabs>
+
+## API Specification
+
+### RESTful API Design
+
+<Info>
+  The API follows REST principles and uses standard HTTP methods and status codes.
+</Info>
+
+#### Authentication Endpoints
+
+<AccordionGroup>
+  <Accordion title="POST /api/auth/register">
+    **Description:** Register a new user account
+    
+    **Request Body:**
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "SecurePass123!",
+      "firstName": "John",
+      "lastName": "Doe"
+    }
+    ```
+    
+    **Response (201 Created):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "id": "uuid",
+        "email": "user@example.com",
+        "firstName": "John",
+        "lastName": "Doe"
+      },
+      "message": "Registration successful. Please verify your email."
+    }
+    ```
+    
+    **Error Responses:**
+    - 400: Invalid input data
+    - 409: Email already exists
+  </Accordion>
+
+  <Accordion title="POST /api/auth/login">
+    **Description:** Authenticate user and receive access token
+    
+    **Request Body:**
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "SecurePass123!"
+    }
+    ```
+    
+    **Response (200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "token": "jwt.token.here",
+        "refreshToken": "refresh.token.here",
+        "expiresIn": 3600,
+        "user": {
+          "id": "uuid",
+          "email": "user@example.com",
+          "role": "user"
+        }
+      }
+    }
+    ```
+    
+    **Error Responses:**
+    - 401: Invalid credentials
+    - 403: Account locked or unverified
+  </Accordion>
+
+  <Accordion title="POST /api/auth/logout">
+    **Description:** Invalidate current session token
+    
+    **Headers:**
+    ```
+    Authorization: Bearer {token}
+    ```
+    
+    **Response (200 OK):**
+    ```json
+    {
+      "success": true,
+      "message": "Logged out successfully"
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+#### Content Endpoints
+
+<CardGroup cols={2}>
+  <Card title="GET /api/content" icon="list">
+    List all content items with pagination
+    
+    **Query Parameters:**
+    - `page`: Page number (default: 1)
+    - `limit`: Items per page (default: 20)
+    - `sort`: Sort field
+    - `filter`: Filter criteria
+  </Card>
+  
+  <Card title="GET /api/content/:id" icon="eye">
+    Retrieve a specific content item
+    
+    **Response:** Content object with metadata
+  </Card>
+  
+  <Card title="POST /api/content" icon="plus">
+    Create a new content item
+    
+    **Auth Required:** Yes
+    **Request:** Content object
+  </Card>
+  
+  <Card title="PUT /api/content/:id" icon="pen">
+    Update an existing content item
+    
+    **Auth Required:** Yes
+    **Request:** Updated content object
+  </Card>
+  
+  <Card title="DELETE /api/content/:id" icon="trash">
+    Delete a content item
+    
+    **Auth Required:** Yes
+    **Response:** Confirmation message
+  </Card>
+</CardGroup>
+
+### API Response Format
+
+<Tabs>
+  <Tab title="Success Response">
+    ```json
+    {
+      "success": true,
+      "data": {
+        // Response payload
+      },
+      "metadata": {
+        "timestamp": "2026-10-15T10:30:00Z",
+        "version": "1.0"
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Error Response">
+    ```json
+    {
+      "success": false,
+      "error": {
+        "code": "ERROR_CODE",
+        "message": "Human-readable error message",
+        "details": [
+          {
+            "field": "email",
+            "message": "Invalid email format"
+          }
+        ]
+      },
+      "metadata": {
+        "timestamp": "2026-10-15T10:30:00Z",
+        "requestId": "req-uuid"
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Paginated Response">
+    ```json
+    {
+      "success": true,
+      "data": [
+        // Array of items
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 20,
+        "total": 150,
+        "totalPages": 8,
+        "hasNext": true,
+        "hasPrev": false
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Security Specifications
+
+### Authentication Flow
+
+<Steps>
+  <Step title="User Submits Credentials">
+    User provides email and password through login form
+  </Step>
+  
+  <Step title="Server Validates Credentials">
+    - Hash password using bcrypt
+    - Compare with stored hash
+    - Verify account status (active, verified)
+  </Step>
+  
+  <Step title="Generate Tokens">
+    - Create JWT access token (15 min expiry)
+    - Create refresh token (7 day expiry)
+    - Store refresh token in database
+  </Step>
+  
+  <Step title="Return Tokens to Client">
+    - Send tokens in response body
+    - Client stores tokens securely
+    - Access token used for API requests
+  </Step>
+</Steps>
+
+### Security Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Password Security" icon="lock">
+    - Minimum 8 characters
+    - Complexity requirements
+    - Bcrypt hashing (cost 12)
+    - Password history tracking
+  </Card>
+  
+  <Card title="Token Security" icon="key">
+    - JWT with RS256 signing
+    - Short-lived access tokens
+    - Refresh token rotation
+    - Token revocation list
+  </Card>
+  
+  <Card title="Input Validation" icon="shield-check">
+    - Server-side validation
+    - SQL injection prevention
+    - XSS prevention
+    - CSRF protection
+  </Card>
+  
+  <Card title="API Security" icon="shield-halved">
+    - Rate limiting (100 req/min)
+    - CORS configuration
+    - HTTPS only
+    - API key authentication
+  </Card>
+</CardGroup>
+
+## Performance Specifications
+
+### Caching Strategy
+
+<AccordionGroup>
+  <Accordion title="Client-Side Caching">
+    **Browser Cache:**
+    - Static assets: 1 year cache
+    - API responses: No-cache with ETag
+    - Service worker for offline support
+    
+    **Local Storage:**
+    - User preferences
+    - Non-sensitive application state
+    - Draft content
+  </Accordion>
+  
+  <Accordion title="Server-Side Caching">
+    **Redis Cache:**
+    - Session data (15 minutes TTL)
+    - Frequently accessed content (5 minutes TTL)
+    - API rate limit counters
+    - Database query results
+    
+    **CDN Caching:**
+    - Static assets (images, CSS, JS)
+    - Public content pages
+    - Cache invalidation on updates
+  </Accordion>
+</AccordionGroup>
+
+### Database Optimization
+
+<Info>
+  Proper indexing and query optimization are critical for performance.
+</Info>
+
+- **Query Optimization:** Use EXPLAIN to analyze queries
+- **Indexing Strategy:** Index foreign keys and frequently queried columns
+- **Connection Pooling:** Maintain 10-50 connections based on load
+- **Read Replicas:** Separate read and write operations
+- **Partitioning:** Partition large tables by date or category
+
+## Deployment Specification
+
+### Infrastructure Architecture
+
+<CardGroup cols={3}>
+  <Card title="Load Balancer" icon="scale-balanced">
+    - Distributes traffic
+    - SSL termination
+    - Health checks
+    - Auto-scaling triggers
+  </Card>
+  
+  <Card title="Application Servers" icon="server">
+    - Container-based deployment
+    - Horizontal scaling
+    - Zero-downtime updates
+    - Resource monitoring
+  </Card>
+  
+  <Card title="Database Cluster" icon="database">
+    - Primary-replica setup
+    - Automated backups
+    - Point-in-time recovery
+    - High availability
+  </Card>
+</CardGroup>
+
+### CI/CD Pipeline
+
+<Steps>
+  <Step title="Code Commit">
+    Developer pushes code to repository
+  </Step>
+  
+  <Step title="Automated Build">
+    - Install dependencies
+    - Run linters and formatters
+    - Compile/transpile code
+    - Run unit tests
+  </Step>
+  
+  <Step title="Integration Testing">
+    - Run integration tests
+    - Run E2E tests
+    - Security scanning
+    - Code coverage analysis
+  </Step>
+  
+  <Step title="Staging Deployment">
+    - Deploy to staging environment
+    - Run smoke tests
+    - Manual QA approval
+  </Step>
+  
+  <Step title="Production Deployment">
+    - Blue-green deployment
+    - Health check verification
+    - Gradual traffic shift
+    - Rollback on failure
+  </Step>
+</Steps>
+
+## Monitoring and Logging
+
+### Monitoring Metrics
+
+<CardGroup cols={2}>
+  <Card title="Application Metrics" icon="chart-line">
+    - Request rate
+    - Response time (p50, p95, p99)
+    - Error rate
+    - Active users
+  </Card>
+  
+  <Card title="System Metrics" icon="microchip">
+    - CPU utilization
+    - Memory usage
+    - Disk I/O
+    - Network throughput
+  </Card>
+  
+  <Card title="Business Metrics" icon="chart-pie">
+    - User registrations
+    - Content created
+    - Feature usage
+    - Conversion rates
+  </Card>
+  
+  <Card title="Database Metrics" icon="database">
+    - Query performance
+    - Connection pool usage
+    - Slow query log
+    - Replication lag
+  </Card>
+</CardGroup>
+
+### Logging Strategy
+
+<Warning>
+  Never log sensitive information such as passwords, tokens, or personal data.
+</Warning>
+
+**Log Levels:**
+- **ERROR:** Application errors requiring immediate attention
+- **WARN:** Potential issues that should be investigated
+- **INFO:** General informational messages
+- **DEBUG:** Detailed information for debugging (dev/staging only)
+
+**Log Structure:**
+```json
+{
+  "timestamp": "2026-10-15T10:30:00.000Z",
+  "level": "INFO",
+  "service": "api",
+  "requestId": "req-uuid",
+  "userId": "user-uuid",
+  "message": "User logged in successfully",
+  "metadata": {
+    "ip": "192.168.1.1",
+    "userAgent": "Mozilla/5.0..."
+  }
+}
+```
+
+## Testing Strategy
+
+<Tabs>
+  <Tab title="Unit Tests">
+    **Scope:** Individual functions and components
+    
+    **Tools:**
+    - Testing framework (Jest, Mocha, etc.)
+    - Assertion library
+    - Mocking framework
+    
+    **Coverage Target:** 80% minimum
+    
+    **Best Practices:**
+    - Test one thing per test
+    - Use descriptive test names
+    - Arrange-Act-Assert pattern
+    - Mock external dependencies
+  </Tab>
+  
+  <Tab title="Integration Tests">
+    **Scope:** Multiple components working together
+    
+    **Tools:**
+    - API testing framework
+    - Test database
+    - Docker for services
+    
+    **Coverage:** Critical paths and integrations
+    
+    **Best Practices:**
+    - Test realistic scenarios
+    - Use test fixtures
+    - Clean up after tests
+    - Test error conditions
+  </Tab>
+  
+  <Tab title="E2E Tests">
+    **Scope:** Complete user workflows
+    
+    **Tools:**
+    - Browser automation (Playwright, Selenium)
+    - Visual regression testing
+    - Performance testing
+    
+    **Coverage:** Critical user journeys
+    
+    **Best Practices:**
+    - Test happy paths
+    - Test error scenarios
+    - Cross-browser testing
+    - Mobile device testing
+  </Tab>
+</Tabs>
+
+## Code Standards
+
+### Naming Conventions
+
+<AccordionGroup>
+  <Accordion title="Files and Directories">
+    - Use kebab-case for file names: `user-service.js`
+    - Use PascalCase for component files: `UserProfile.jsx`
+    - Group related files in directories
+    - Use index files for clean imports
+  </Accordion>
+  
+  <Accordion title="Variables and Functions">
+    - Use camelCase for variables: `userName`
+    - Use camelCase for functions: `getUserById()`
+    - Use PascalCase for classes: `UserService`
+    - Use UPPER_SNAKE_CASE for constants: `MAX_RETRIES`
+  </Accordion>
+  
+  <Accordion title="Database Objects">
+    - Use snake_case for table names: `user_profiles`
+    - Use snake_case for column names: `created_at`
+    - Use singular for entity tables: `user`, not `users`
+    - Use descriptive names, avoid abbreviations
+  </Accordion>
+</AccordionGroup>
+
+### Code Documentation
+
+<Note>
+  Well-documented code reduces maintenance costs and improves team collaboration.
+</Note>
+
+**JSDoc Example:**
+```javascript
+/**
+ * Retrieves a user by their unique identifier
+ * @param {string} userId - The unique user identifier
+ * @param {Object} options - Optional parameters
+ * @param {boolean} options.includeDeleted - Include deleted users
+ * @returns {Promise<User>} The user object
+ * @throws {NotFoundError} If user does not exist
+ */
+async function getUserById(userId, options = {}) {
+  // Implementation
+}
+```
+
+## Reference Documentation
+
+<Warning>
+  This technical specification should be read in conjunction with the complete project specification document.
+</Warning>
+
+### Complete Specification Document
+
+<Card title="Proyecto desarrollo web 2026-10.pdf" icon="file-pdf">
+  **Location:** `Documentos/Proyecto desarrollo web 2026-10.pdf`
+  
+  **Pages:** 9
+  
+  **Contents:**
+  - Detailed project requirements
+  - Architecture diagrams
+  - Technical specifications
+  - Implementation guidelines
+  - Timeline and milestones
+  - Resource allocation
+  
+  Please refer to this document for complete project details and specifications.
+</Card>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Project Overview" icon="diagram-project" href="/project/overview">
+    High-level project goals and architecture
+  </Card>
+  <Card title="Requirements" icon="list-check" href="/project/requirements">
+    Functional and non-functional requirements
+  </Card>
+</CardGroup>
+
+---
+
+<Info>
+  This specification document is a living document and will be updated as the project evolves.
+</Info>

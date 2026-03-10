@@ -1,0 +1,705 @@
+---
+title: 'Frequently Asked Questions'
+description: 'Common questions and answers about web development'
+icon: 'circle-question'
+---
+
+## General Questions
+
+<AccordionGroup>
+  <Accordion title="What technologies does ProyectoWeb use?">
+    ProyectoWeb is built using modern web development technologies including:
+    
+    - **HTML5** - Semantic markup and structure
+    - **CSS3** - Styling and responsive design
+    - **JavaScript** - Interactive functionality
+    - **Git** - Version control and collaboration
+    
+    The project follows industry best practices and modern web standards to ensure compatibility, performance, and maintainability.
+  </Accordion>
+
+  <Accordion title="What are the system requirements for development?">
+    To work on ProyectoWeb, you'll need:
+    
+    **Minimum Requirements:**
+    - Modern web browser (Chrome, Firefox, Safari, or Edge - latest version)
+    - Text editor or IDE (VS Code recommended)
+    - Git for version control
+    - 4GB RAM minimum (8GB recommended)
+    
+    **Recommended Setup:**
+    - Node.js (LTS version) for build tools
+    - npm or yarn package manager
+    - Local development server
+    - Browser developer tools knowledge
+  </Accordion>
+
+  <Accordion title="How do I get started with the project?">
+    Follow these steps to begin:
+    
+    1. **Clone the repository** using Git
+    2. **Read the documentation** to understand the project structure
+    3. **Set up your development environment** with required tools
+    4. **Run the project locally** to ensure everything works
+    5. **Make your first changes** on a feature branch
+    
+    Check the Getting Started guide for detailed instructions.
+  </Accordion>
+
+  <Accordion title="Is ProyectoWeb open source?">
+    ProyectoWeb is currently in early development stages. The licensing and contribution guidelines will be established as the project matures. Check the repository for the latest information on contributing.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Development
+
+<AccordionGroup>
+  <Accordion title="How do I set up a local development environment?">
+    Setting up your local environment is straightforward:
+    
+    ```bash
+    # Clone the repository
+    git clone <repository-url>
+    cd ProyectoWeb
+    
+    # Install dependencies (if applicable)
+    npm install
+    
+    # Start development server
+    npm run dev
+    ```
+    
+    For a simple HTML/CSS/JS project, you can use:
+    - **VS Code Live Server** extension
+    - **Python's built-in server:** `python -m http.server 8000`
+    - **Node's http-server:** `npx http-server`
+  </Accordion>
+
+  <Accordion title="What coding standards should I follow?">
+    Follow these coding standards for consistency:
+    
+    **HTML:**
+    - Use semantic HTML5 elements
+    - Include proper meta tags and descriptions
+    - Maintain proper indentation (2 spaces)
+    - Use lowercase for tags and attributes
+    
+    **CSS:**
+    - Use meaningful class names (BEM methodology recommended)
+    - Organize styles logically
+    - Avoid inline styles
+    - Use CSS variables for consistent theming
+    
+    **JavaScript:**
+    - Use ES6+ syntax
+    - Follow camelCase naming convention
+    - Write descriptive variable and function names
+    - Comment complex logic
+    - Handle errors appropriately
+  </Accordion>
+
+  <Accordion title="How do I debug issues in the browser?">
+    Use browser developer tools for debugging:
+    
+    **Opening DevTools:**
+    - Chrome/Edge: `F12` or `Ctrl+Shift+I` (Windows/Linux) / `Cmd+Option+I` (Mac)
+    - Firefox: `F12` or `Ctrl+Shift+I` (Windows/Linux) / `Cmd+Option+I` (Mac)
+    
+    **Key Features:**
+    - **Elements/Inspector:** Inspect and modify HTML/CSS in real-time
+    - **Console:** View errors, warnings, and log messages
+    - **Sources/Debugger:** Set breakpoints and step through code
+    - **Network:** Monitor HTTP requests and responses
+    - **Performance:** Analyze page load and runtime performance
+  </Accordion>
+
+  <Accordion title="How do I handle responsive design?">
+    Implement responsive design using these approaches:
+    
+    **Mobile-First Approach:**
+    ```css
+    /* Base styles for mobile */
+    .container {
+      width: 100%;
+      padding: 1rem;
+    }
+    
+    /* Tablet and up */
+    @media (min-width: 768px) {
+      .container {
+        padding: 2rem;
+      }
+    }
+    
+    /* Desktop and up */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+    }
+    ```
+    
+    **Best Practices:**
+    - Use relative units (rem, em, %, vw/vh) instead of fixed pixels
+    - Test on multiple devices and screen sizes
+    - Use CSS Grid and Flexbox for flexible layouts
+    - Optimize images for different screen sizes
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Git & Version Control
+
+<AccordionGroup>
+  <Accordion title="What is the branching strategy?">
+    We follow a simplified Git workflow:
+    
+    **Branch Types:**
+    - `main` - Production-ready code
+    - `develop` - Integration branch for features
+    - `feature/*` - New features (e.g., `feature/user-login`)
+    - `bugfix/*` - Bug fixes (e.g., `bugfix/header-alignment`)
+    - `hotfix/*` - Urgent production fixes
+    
+    **Workflow:**
+    1. Create a feature branch from `develop`
+    2. Make your changes and commit regularly
+    3. Push your branch and create a pull request
+    4. After review and approval, merge to `develop`
+    5. Periodically merge `develop` to `main` for releases
+  </Accordion>
+
+  <Accordion title="How do I write good commit messages?">
+    Follow these commit message guidelines:
+    
+    **Format:**
+    ```
+    type: Brief description (50 chars or less)
+    
+    More detailed explanation if needed (wrap at 72 chars).
+    Explain what changed and why, not how.
+    ```
+    
+    **Types:**
+    - `feat:` New feature
+    - `fix:` Bug fix
+    - `docs:` Documentation changes
+    - `style:` Formatting, missing semicolons, etc.
+    - `refactor:` Code restructuring without changing behavior
+    - `test:` Adding or updating tests
+    - `chore:` Maintenance tasks
+    
+    **Examples:**
+    ```bash
+    git commit -m "feat: add user authentication form"
+    git commit -m "fix: resolve header alignment on mobile devices"
+    git commit -m "docs: update installation instructions"
+    ```
+  </Accordion>
+
+  <Accordion title="How do I resolve merge conflicts?">
+    When merge conflicts occur:
+    
+    **Steps to Resolve:**
+    1. **Identify conflicts:** Git will mark conflicting files
+    2. **Open the file:** Look for conflict markers:
+       ```
+       <<<<<<< HEAD
+       Your changes
+       =======
+       Incoming changes
+       >>>>>>> branch-name
+       ```
+    3. **Edit the file:** Keep the desired changes, remove markers
+    4. **Test your changes:** Ensure everything works
+    5. **Stage and commit:**
+       ```bash
+       git add <resolved-file>
+       git commit -m "resolve: merge conflicts in <file>"
+       ```
+    
+    **Prevention Tips:**
+    - Pull latest changes frequently
+    - Communicate with team members
+    - Keep branches short-lived
+    - Make smaller, focused commits
+  </Accordion>
+
+  <Accordion title="What should I do if I accidentally committed sensitive data?">
+    <Warning>
+      Never commit sensitive information like passwords, API keys, or personal data.
+    </Warning>
+    
+    **Immediate Actions:**
+    1. **Don't push** if you haven't already
+    2. **Remove the sensitive data** from your working directory
+    3. **Amend the commit** if it's the most recent:
+       ```bash
+       git reset --soft HEAD~1
+       # Remove sensitive data
+       git add .
+       git commit -m "your message"
+       ```
+    
+    **If Already Pushed:**
+    - Rotate/invalidate compromised credentials immediately
+    - Contact your team lead or security team
+    - Consider using `git filter-branch` or BFG Repo-Cleaner (advanced)
+    
+    **Prevention:**
+    - Use `.gitignore` to exclude sensitive files
+    - Use environment variables for secrets
+    - Implement pre-commit hooks to detect sensitive data
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Performance & Optimization
+
+<AccordionGroup>
+  <Accordion title="How can I improve page load speed?">
+    Optimize performance with these techniques:
+    
+    **Image Optimization:**
+    - Use modern formats (WebP, AVIF)
+    - Compress images without losing quality
+    - Implement lazy loading: `<img loading="lazy">`
+    - Use responsive images with `srcset`
+    
+    **Code Optimization:**
+    - Minify CSS and JavaScript files
+    - Remove unused code
+    - Bundle and compress assets
+    - Use code splitting for large applications
+    
+    **Network Optimization:**
+    - Enable browser caching
+    - Use a Content Delivery Network (CDN)
+    - Reduce HTTP requests
+    - Enable gzip/brotli compression
+    
+    **Rendering Optimization:**
+    - Minimize render-blocking resources
+    - Defer non-critical JavaScript
+    - Optimize CSS delivery
+    - Use font-display for web fonts
+  </Accordion>
+
+  <Accordion title="What are Core Web Vitals and why do they matter?">
+    Core Web Vitals are Google's metrics for user experience:
+    
+    **The Three Metrics:**
+    
+    1. **LCP (Largest Contentful Paint)** - Loading performance
+       - Goal: < 2.5 seconds
+       - Measures when main content loads
+    
+    2. **FID (First Input Delay)** - Interactivity
+       - Goal: < 100 milliseconds
+       - Measures time until page responds to user input
+    
+    3. **CLS (Cumulative Layout Shift)** - Visual stability
+       - Goal: < 0.1
+       - Measures unexpected layout shifts
+    
+    **Why They Matter:**
+    - Impact SEO rankings
+    - Improve user experience
+    - Increase conversion rates
+    - Reduce bounce rates
+    
+    **Measure with:**
+    - Google PageSpeed Insights
+    - Chrome DevTools Lighthouse
+    - Search Console Core Web Vitals report
+  </Accordion>
+
+  <Accordion title="How do I optimize CSS and JavaScript?">
+    **CSS Optimization:**
+    - Remove unused CSS rules
+    - Use shorthand properties
+    - Avoid expensive selectors (universal, descendant)
+    - Combine similar rules
+    - Use CSS variables for reusable values
+    - Minify CSS for production
+    
+    **JavaScript Optimization:**
+    - Minimize DOM manipulation
+    - Use event delegation instead of multiple listeners
+    - Debounce/throttle expensive operations
+    - Avoid memory leaks (remove event listeners)
+    - Use async/defer for script loading:
+      ```html
+      <script src="app.js" defer></script>
+      ```
+    - Minify and bundle JavaScript files
+    
+    **Tools:**
+    - **PurgeCSS** - Remove unused CSS
+    - **Terser** - JavaScript minification
+    - **Webpack/Rollup** - Module bundlers
+    - **Lighthouse** - Performance auditing
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Accessibility
+
+<AccordionGroup>
+  <Accordion title="Why is web accessibility important?">
+    Web accessibility ensures your website is usable by everyone:
+    
+    **Benefits:**
+    - **Inclusive:** Reaches users with disabilities (visual, auditory, motor, cognitive)
+    - **Legal:** Compliance with accessibility laws (ADA, Section 508, WCAG)
+    - **SEO:** Semantic HTML improves search engine rankings
+    - **UX:** Accessibility improvements benefit all users
+    - **Business:** Expands your potential audience
+    
+    **Statistics:**
+    - 1 in 4 adults in the US has a disability
+    - Accessible websites have better user engagement
+    - Many accessibility features help users with temporary impairments
+  </Accordion>
+
+  <Accordion title="What are basic accessibility requirements?">
+    Implement these fundamental accessibility practices:
+    
+    **HTML Structure:**
+    - Use semantic HTML elements (`<nav>`, `<main>`, `<article>`)
+    - Provide descriptive page titles
+    - Use heading hierarchy properly (h1 → h2 → h3)
+    - Include skip navigation links
+    
+    **Images & Media:**
+    - Add alt text to all images:
+      ```html
+      <img src="logo.png" alt="ProyectoWeb logo">
+      ```
+    - Provide captions for videos
+    - Include transcripts for audio content
+    
+    **Forms:**
+    - Label all form inputs:
+      ```html
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email">
+      ```
+    - Provide clear error messages
+    - Group related inputs with `<fieldset>`
+    
+    **Keyboard Navigation:**
+    - Ensure all interactive elements are keyboard accessible
+    - Provide visible focus indicators
+    - Maintain logical tab order
+    
+    **Color & Contrast:**
+    - Meet WCAG contrast ratios (4.5:1 for normal text)
+    - Don't rely on color alone to convey information
+  </Accordion>
+
+  <Accordion title="How do I test accessibility?">
+    Use multiple methods to test accessibility:
+    
+    **Automated Testing:**
+    - **WAVE** browser extension
+    - **axe DevTools** browser extension
+    - **Lighthouse** accessibility audit
+    - **Pa11y** command-line tool
+    
+    **Manual Testing:**
+    - Navigate using only keyboard (Tab, Enter, Space, Arrows)
+    - Test with screen readers (NVDA, JAWS, VoiceOver)
+    - Zoom page to 200% and verify usability
+    - Check color contrast ratios
+    - Verify all images have alt text
+    
+    **User Testing:**
+    - Include users with disabilities in testing
+    - Gather feedback on accessibility barriers
+    - Iterate based on real user experiences
+    
+    <Tip>
+      Accessibility testing should be continuous, not a one-time check before launch.
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Security
+
+<AccordionGroup>
+  <Accordion title="What are common web security vulnerabilities?">
+    Be aware of these common security issues:
+    
+    **OWASP Top 10 Web Application Security Risks:**
+    
+    1. **Injection** - SQL, NoSQL, command injection
+    2. **Broken Authentication** - Session management issues
+    3. **Sensitive Data Exposure** - Unencrypted data transmission
+    4. **XML External Entities (XXE)** - XML processing vulnerabilities
+    5. **Broken Access Control** - Unauthorized access to resources
+    6. **Security Misconfiguration** - Default settings, verbose errors
+    7. **Cross-Site Scripting (XSS)** - Malicious scripts in web pages
+    8. **Insecure Deserialization** - Remote code execution
+    9. **Using Components with Known Vulnerabilities** - Outdated libraries
+    10. **Insufficient Logging & Monitoring** - Delayed breach detection
+    
+    Visit https://owasp.org for detailed information and prevention strategies.
+  </Accordion>
+
+  <Accordion title="How do I prevent Cross-Site Scripting (XSS) attacks?">
+    Protect against XSS with these practices:
+    
+    **Input Validation:**
+    - Validate and sanitize all user input
+    - Use allowlists instead of blocklists
+    - Reject unexpected input formats
+    
+    **Output Encoding:**
+    - Escape HTML, JavaScript, and URL contexts
+    - Use framework built-in escaping functions
+    - Never insert untrusted data directly into DOM
+    
+    **Content Security Policy (CSP):**
+    ```html
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    ```
+    
+    **JavaScript Best Practices:**
+    - Use `textContent` instead of `innerHTML` when possible
+    - Avoid `eval()` and `Function()` constructor
+    - Sanitize data before using in dynamic contexts
+    
+    **Example - Safe DOM Manipulation:**
+    ```javascript
+    // Unsafe
+    element.innerHTML = userInput;
+    
+    // Safe
+    element.textContent = userInput;
+    ```
+  </Accordion>
+
+  <Accordion title="How should I handle sensitive data?">
+    Follow these guidelines for sensitive data:
+    
+    **Storage:**
+    - Never store passwords in plain text
+    - Use secure hashing algorithms (bcrypt, Argon2)
+    - Encrypt sensitive data at rest
+    - Use environment variables for secrets
+    
+    **Transmission:**
+    - Always use HTTPS in production
+    - Implement HSTS headers
+    - Use secure cookies: `Secure`, `HttpOnly`, `SameSite`
+    
+    **Access Control:**
+    - Implement principle of least privilege
+    - Use authentication and authorization
+    - Validate permissions on every request
+    - Log access to sensitive data
+    
+    **Client-Side:**
+    - Never store sensitive data in localStorage
+    - Minimize sensitive data in client-side code
+    - Clear sensitive data from memory when no longer needed
+    
+    **Compliance:**
+    - Follow GDPR, CCPA, and other privacy regulations
+    - Implement data retention policies
+    - Provide users control over their data
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="My CSS changes aren't showing up. What should I do?">
+    Common causes and solutions:
+    
+    **1. Browser Cache:**
+    - Hard refresh: `Ctrl+F5` (Windows) or `Cmd+Shift+R` (Mac)
+    - Clear browser cache
+    - Use DevTools with cache disabled
+    
+    **2. Specificity Issues:**
+    - Check if another rule is overriding your styles
+    - Use DevTools to see computed styles
+    - Increase specificity or use `!important` (last resort)
+    
+    **3. File Path:**
+    - Verify CSS file is linked correctly in HTML
+    - Check for typos in file path
+    - Ensure CSS file is in the correct directory
+    
+    **4. Syntax Errors:**
+    - Look for missing semicolons or braces
+    - Validate CSS with W3C validator
+    - Check browser console for errors
+    
+    **5. Order Issues:**
+    - CSS files are processed in order
+    - Later rules override earlier ones
+    - Check link order in `<head>`
+  </Accordion>
+
+  <Accordion title="How do I fix JavaScript errors?">
+    Debug JavaScript issues systematically:
+    
+    **1. Check Console:**
+    - Open browser DevTools (F12)
+    - Look for error messages in Console tab
+    - Note the file name and line number
+    
+    **2. Common Errors:**
+    
+    - **Uncaught ReferenceError:** Variable not defined
+      ```javascript
+      // Error: myVariable is not defined
+      console.log(myVariable);
+      
+      // Fix: Declare the variable
+      let myVariable = "value";
+      console.log(myVariable);
+      ```
+    
+    - **Uncaught TypeError:** Wrong data type or null/undefined
+      ```javascript
+      // Error: Cannot read property 'x' of null
+      let obj = null;
+      console.log(obj.x);
+      
+      // Fix: Check before accessing
+      if (obj !== null) {
+        console.log(obj.x);
+      }
+      ```
+    
+    - **Uncaught SyntaxError:** Invalid JavaScript syntax
+      ```javascript
+      // Error: Unexpected token
+      const items = [1, 2, 3,];
+      
+      // Fix: Remove trailing comma (in older browsers)
+      const items = [1, 2, 3];
+      ```
+    
+    **3. Debugging Techniques:**
+    - Use `console.log()` to inspect values
+    - Set breakpoints in DevTools Sources tab
+    - Step through code line by line
+    - Watch variable values change
+  </Accordion>
+
+  <Accordion title="The website looks broken on mobile devices. How do I fix it?">
+    Troubleshoot mobile layout issues:
+    
+    **1. Viewport Meta Tag:**
+    Ensure you have this in `<head>`:
+    ```html
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    ```
+    
+    **2. Fixed Widths:**
+    - Replace fixed pixel widths with relative units
+    - Use `max-width` instead of `width`
+    - Apply `width: 100%` to large elements
+    
+    **3. Media Queries:**
+    Test and adjust breakpoints:
+    ```css
+    /* Mobile first approach */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+    }
+    ```
+    
+    **4. Testing:**
+    - Use Chrome DevTools device emulation
+    - Test on real devices when possible
+    - Check multiple screen sizes
+    
+    **5. Common Fixes:**
+    - Make images responsive: `img { max-width: 100%; height: auto; }`
+    - Use flexible layouts: Flexbox or Grid
+    - Adjust font sizes for readability
+    - Ensure touch targets are at least 44x44px
+  </Accordion>
+
+  <Accordion title="How do I debug performance issues?">
+    Identify and fix performance bottlenecks:
+    
+    **1. Use Lighthouse:**
+    - Open Chrome DevTools
+    - Go to Lighthouse tab
+    - Generate report for Performance
+    - Follow recommendations
+    
+    **2. Performance Tab:**
+    - Record page load or interaction
+    - Analyze CPU usage and bottlenecks
+    - Look for long tasks (>50ms)
+    - Check for forced reflows/layouts
+    
+    **3. Network Tab:**
+    - Identify slow-loading resources
+    - Check file sizes (large images, scripts)
+    - Look for blocking requests
+    - Verify caching is working
+    
+    **4. Common Issues:**
+    - Large, unoptimized images
+    - Too many HTTP requests
+    - Render-blocking CSS/JS
+    - Inefficient JavaScript loops
+    - Memory leaks
+    
+    **5. Quick Wins:**
+    - Compress and optimize images
+    - Minify CSS and JavaScript
+    - Enable browser caching
+    - Use lazy loading
+    - Defer non-critical scripts
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Still Have Questions?
+
+<Card
+  title="Contact Support"
+  icon="envelope"
+>
+  If you can't find the answer to your question here, check the documentation or reach out to the development team for assistance.
+</Card>
+
+<CardGroup cols={2}>
+  <Card
+    title="Documentation"
+    icon="book"
+    href="/introduction"
+  >
+    Browse the complete documentation
+  </Card>
+  <Card
+    title="Community"
+    icon="users"
+  >
+    Join discussions with other developers
+  </Card>
+</CardGroup>

@@ -1,0 +1,540 @@
+---
+title: 'Development Guidelines'
+description: 'Coding standards and best practices for ProyectoWeb development'
+icon: 'book-open'
+---
+
+## Code Style
+
+Maintaining consistent code style across the project ensures readability and maintainability.
+
+### General Principles
+
+<CardGroup cols={2}>
+  <Card title="Clean Code" icon="broom" color="#3B82F6">
+    Write self-documenting, readable code
+  </Card>
+  <Card title="DRY Principle" icon="repeat" color="#3B82F6">
+    Don't Repeat Yourself - reuse code
+  </Card>
+  <Card title="SOLID Principles" icon="cube" color="#3B82F6">
+    Follow object-oriented design principles
+  </Card>
+  <Card title="KISS" icon="heart" color="#3B82F6">
+    Keep It Simple, Stupid
+  </Card>
+</CardGroup>
+
+### JavaScript/TypeScript Standards
+
+<Tabs>
+  <Tab title="Naming Conventions">
+    Follow these naming conventions consistently:
+    
+    ```javascript
+    // Variables and functions: camelCase
+    const userName = 'John';
+    function getUserData() { }
+    
+    // Classes and components: PascalCase
+    class UserService { }
+    const UserProfile = () => { };
+    
+    // Constants: UPPER_SNAKE_CASE
+    const API_BASE_URL = 'https://api.example.com';
+    const MAX_RETRY_ATTEMPTS = 3;
+    
+    // Private methods: prefix with underscore
+    class Example {
+      _privateMethod() { }
+    }
+    
+    // Boolean variables: use is/has/should prefix
+    const isActive = true;
+    const hasPermission = false;
+    const shouldRender = true;
+    ```
+  </Tab>
+
+  <Tab title="File Organization">
+    ```bash
+    src/
+    ├── components/          # Reusable UI components
+    │   ├── common/         # Shared components
+    │   ├── layout/         # Layout components
+    │   └── features/       # Feature-specific components
+    ├── pages/              # Page components
+    ├── hooks/              # Custom React hooks
+    ├── utils/              # Utility functions
+    ├── services/           # API and external services
+    ├── stores/             # State management
+    ├── types/              # TypeScript type definitions
+    ├── constants/          # Application constants
+    └── styles/             # Global styles
+    ```
+  </Tab>
+
+  <Tab title="Import Order">
+    Organize imports in this order:
+    
+    ```javascript
+    // 1. External libraries
+    import React, { useState, useEffect } from 'react';
+    import { useRouter } from 'next/router';
+    
+    // 2. Internal modules
+    import { Button } from '@/components/common';
+    import { useAuth } from '@/hooks/useAuth';
+    
+    // 3. Utilities and helpers
+    import { formatDate } from '@/utils/date';
+    import { API_ENDPOINTS } from '@/constants/api';
+    
+    // 4. Types
+    import type { User } from '@/types/user';
+    
+    // 5. Styles
+    import styles from './Component.module.css';
+    ```
+  </Tab>
+</Tabs>
+
+## Component Guidelines
+
+### React Component Best Practices
+
+<Steps>
+  <Step title="Use Functional Components">
+    Prefer functional components with hooks over class components:
+    
+    ```jsx
+    // Good
+    const UserCard = ({ user }) => {
+      const [isExpanded, setIsExpanded] = useState(false);
+      
+      return (
+        <div className="user-card">
+          <h3>{user.name}</h3>
+          {isExpanded && <p>{user.bio}</p>}
+          <button onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? 'Show Less' : 'Show More'}
+          </button>
+        </div>
+      );
+    };
+    ```
+  </Step>
+
+  <Step title="Component Composition">
+    Break down complex components into smaller, reusable pieces:
+    
+    ```jsx
+    // Instead of one large component
+    const UserDashboard = () => {
+      return (
+        <div>
+          <UserHeader />
+          <UserStats />
+          <UserActivity />
+          <UserSettings />
+        </div>
+      );
+    };
+    ```
+  </Step>
+
+  <Step title="Props Validation">
+    Use TypeScript or PropTypes for type safety:
+    
+    ```typescript
+    interface UserCardProps {
+      user: {
+        id: string;
+        name: string;
+        email: string;
+        role?: 'admin' | 'user';
+      };
+      onEdit?: (userId: string) => void;
+      isEditable?: boolean;
+    }
+    
+    const UserCard: React.FC<UserCardProps> = ({ 
+      user, 
+      onEdit, 
+      isEditable = false 
+    }) => {
+      // Component logic
+    };
+    ```
+  </Step>
+
+  <Step title="Custom Hooks">
+    Extract reusable logic into custom hooks:
+    
+    ```javascript
+    // hooks/useUser.js
+    export const useUser = (userId) => {
+      const [user, setUser] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+      
+      useEffect(() => {
+        fetchUser(userId)
+          .then(setUser)
+          .catch(setError)
+          .finally(() => setLoading(false));
+      }, [userId]);
+      
+      return { user, loading, error };
+    };
+    ```
+  </Step>
+</Steps>
+
+### Performance Optimization
+
+<AccordionGroup>
+  <Accordion title="Memoization">
+    Use React.memo, useMemo, and useCallback appropriately:
+    
+    ```javascript
+    // Memoize expensive computations
+    const expensiveValue = useMemo(() => {
+      return computeExpensiveValue(data);
+    }, [data]);
+    
+    // Memoize callback functions
+    const handleClick = useCallback(() => {
+      doSomething(id);
+    }, [id]);
+    
+    // Memoize components
+    const MemoizedComponent = React.memo(Component);
+    ```
+  </Accordion>
+
+  <Accordion title="Code Splitting">
+    Implement lazy loading for better initial load times:
+    
+    ```javascript
+    import { lazy, Suspense } from 'react';
+    
+    const HeavyComponent = lazy(() => import('./HeavyComponent'));
+    
+    const App = () => (
+      <Suspense fallback={<LoadingSpinner />}>
+        <HeavyComponent />
+      </Suspense>
+    );
+    ```
+  </Accordion>
+
+  <Accordion title="Image Optimization">
+    Use appropriate image formats and lazy loading:
+    
+    ```jsx
+    // Next.js Image component
+    import Image from 'next/image';
+    
+    <Image
+      src="/photo.jpg"
+      alt="Description"
+      width={500}
+      height={300}
+      loading="lazy"
+      placeholder="blur"
+    />
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## API and Data Handling
+
+### API Integration
+
+<Warning>
+  Always validate and sanitize data received from external APIs before using it in your application.
+</Warning>
+
+```javascript
+// services/api.js
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Request interceptor
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor
+api.interceptors.response.use(
+  (response) => response.data,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Handle unauthorized
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default api;
+```
+
+### Error Handling
+
+<Tabs>
+  <Tab title="Try-Catch Pattern">
+    ```javascript
+    const fetchUserData = async (userId) => {
+      try {
+        const response = await api.get(`/users/${userId}`);
+        return { data: response, error: null };
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+        return { 
+          data: null, 
+          error: error.message || 'Failed to fetch user' 
+        };
+      }
+    };
+    ```
+  </Tab>
+
+  <Tab title="Error Boundaries">
+    ```jsx
+    class ErrorBoundary extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+      }
+
+      static getDerivedStateFromError(error) {
+        return { hasError: true };
+      }
+
+      componentDidCatch(error, errorInfo) {
+        console.error('Error caught:', error, errorInfo);
+      }
+
+      render() {
+        if (this.state.hasError) {
+          return <ErrorFallback />;
+        }
+        return this.props.children;
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Custom Error Types">
+    ```typescript
+    class APIError extends Error {
+      constructor(
+        message: string,
+        public statusCode: number,
+        public data?: any
+      ) {
+        super(message);
+        this.name = 'APIError';
+      }
+    }
+
+    class ValidationError extends Error {
+      constructor(
+        message: string,
+        public fields: Record<string, string>
+      ) {
+        super(message);
+        this.name = 'ValidationError';
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Git Workflow
+
+### Commit Messages
+
+Follow conventional commit format:
+
+```bash
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Types:**
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, etc.)
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks
+
+**Examples:**
+```bash
+feat(auth): add OAuth2 login support
+
+fix(api): resolve race condition in user data fetch
+
+docs(readme): update installation instructions
+
+refactor(components): simplify UserCard component logic
+```
+
+### Branch Strategy
+
+<Steps>
+  <Step title="Main Branch">
+    `main` - Production-ready code. Protected branch.
+  </Step>
+
+  <Step title="Development Branch">
+    `develop` - Integration branch for features.
+  </Step>
+
+  <Step title="Feature Branches">
+    `feature/feature-name` - New features
+    
+    ```bash
+    git checkout -b feature/user-authentication
+    ```
+  </Step>
+
+  <Step title="Bug Fix Branches">
+    `fix/bug-description` - Bug fixes
+    
+    ```bash
+    git checkout -b fix/login-validation-error
+    ```
+  </Step>
+
+  <Step title="Hotfix Branches">
+    `hotfix/critical-issue` - Critical production fixes
+  </Step>
+</Steps>
+
+<Tip>
+  Always create a new branch for your work. Never commit directly to `main` or `develop`.
+</Tip>
+
+## Code Reviews
+
+### Review Checklist
+
+- [ ] Code follows project style guidelines
+- [ ] All tests pass
+- [ ] New features include tests
+- [ ] Documentation is updated
+- [ ] No console.log or debugging code
+- [ ] Security considerations addressed
+- [ ] Performance implications considered
+- [ ] Accessibility standards met
+
+### Providing Feedback
+
+<AccordionGroup>
+  <Accordion title="Be Constructive">
+    - Focus on the code, not the person
+    - Explain the "why" behind suggestions
+    - Offer alternatives or examples
+    - Acknowledge good work
+  </Accordion>
+
+  <Accordion title="Use Labels">
+    - **Nit**: Minor suggestion, not blocking
+    - **Question**: Asking for clarification
+    - **Suggestion**: Proposed improvement
+    - **Issue**: Must be addressed before merge
+  </Accordion>
+</AccordionGroup>
+
+## Security Best Practices
+
+<Warning>
+  Security is everyone's responsibility. Always consider security implications in your code.
+</Warning>
+
+<CardGroup cols={2}>
+  <Card title="Input Validation" icon="shield-check">
+    Always validate and sanitize user inputs
+  </Card>
+  <Card title="Authentication" icon="lock">
+    Use secure authentication methods
+  </Card>
+  <Card title="Data Encryption" icon="key">
+    Encrypt sensitive data at rest and in transit
+  </Card>
+  <Card title="Dependencies" icon="box-check">
+    Keep dependencies updated and audited
+  </Card>
+</CardGroup>
+
+```javascript
+// Input sanitization example
+import DOMPurify from 'dompurify';
+
+const sanitizeInput = (input) => {
+  return DOMPurify.sanitize(input, {
+    ALLOWED_TAGS: ['b', 'i', 'em', 'strong'],
+  });
+};
+
+// Secure password handling
+import bcrypt from 'bcrypt';
+
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  return await bcrypt.hash(password, saltRounds);
+};
+```
+
+## Documentation
+
+### Code Comments
+
+```javascript
+/**
+ * Fetches user data from the API
+ * @param {string} userId - The unique identifier for the user
+ * @returns {Promise<User>} The user object
+ * @throws {APIError} If the request fails
+ */
+async function fetchUser(userId) {
+  // Implementation
+}
+```
+
+<Tip>
+  Write comments that explain "why", not "what". The code should be self-explanatory for the "what".
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Setup Guide" icon="laptop-code" href="/development/setup">
+    Get your development environment ready
+  </Card>
+  <Card title="Testing" icon="flask" href="/development/testing">
+    Learn about our testing practices
+  </Card>
+</CardGroup>
